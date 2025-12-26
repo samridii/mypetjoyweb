@@ -1,26 +1,63 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .input-auth {
+    height: 3rem;
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    border: 2px solid rgba(139, 92, 246, 0.2);
+    color: rgb(55, 65, 81);
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .input-auth:focus {
+    border-color: rgba(139, 92, 246, 0.5);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+  }
+
+  .input-auth::placeholder {
+    color: rgb(156, 163, 175);
+  }
+
+  .btn-auth {
+    height: 3rem;
+    width: 100%;
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, rgb(139, 92, 246) 0%, rgb(59, 130, 246) 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+  }
+
+  .btn-auth:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+  }
+
+  .btn-auth:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .error {
+    font-size: 0.875rem;
+    color: rgb(239, 68, 68);
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
 }
