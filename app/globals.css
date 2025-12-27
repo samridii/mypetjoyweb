@@ -2,62 +2,49 @@
 
 @layer base {
   body {
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: var(--font-fredoka), system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
   }
 }
 
 @layer components {
   .input-auth {
-    height: 3rem;
     width: 100%;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-radius: 0.75rem;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
-    border: 2px solid rgba(139, 92, 246, 0.2);
-    color: rgb(55, 65, 81);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: rgba(96, 165, 250, 0.3);
+    border: 1px solid rgba(191, 219, 254, 0.5);
+    color: white;
     outline: none;
-    transition: all 0.3s ease;
-  }
-
-  .input-auth:focus {
-    border-color: rgba(139, 92, 246, 0.5);
-    background: white;
-    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
   }
 
   .input-auth::placeholder {
-    color: rgb(156, 163, 175);
+    color: rgba(191, 219, 254, 0.8);
+  }
+
+  .input-auth:focus {
+    border-color: rgba(191, 219, 254, 0.8);
   }
 
   .btn-auth {
-    height: 3rem;
     width: 100%;
-    border-radius: 0.75rem;
-    background: linear-gradient(135deg, rgb(139, 92, 246) 0%, rgb(59, 130, 246) 100%);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background: rgba(147, 197, 253, 0.5);
     color: white;
     font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
     border: none;
-    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    cursor: pointer;
   }
 
-  .btn-auth:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
-  }
-
-  .btn-auth:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+  .btn-auth:hover {
+    background: rgba(147, 197, 253, 0.7);
   }
 
   .error {
-    font-size: 0.875rem;
-    color: rgb(239, 68, 68);
-    margin-top: 0.5rem;
-    font-weight: 500;
+    font-size: 0.75rem;
+    color: rgb(254, 240, 138);
+    margin-top: 0.25rem;
   }
 }
