@@ -7,8 +7,10 @@ export default function Page() {
       
       <div className="absolute top-10 left-0 z-60">
         <div
-          className="relative bg-[#eeede9]  border-l-0
-                     rounded-r-full h-42 w-80 overflow-hidden"
+          className="relative bg-[#eeede9]
+                     rounded-tr-full
+                     h-[550px] w-[340px]
+                     overflow-hidden"
         >
 
           <Image
@@ -22,7 +24,7 @@ export default function Page() {
       </div>
 
       <div className="flex-1 flex justify-end items-end px-6 pt-6">
-        <div className="bg-[#5b84c4] w-full lg:w-[60%] min-h-[88vh] rounded-tl-[120px] flex items-center">
+        <div className="bg-[#5b84c4] w-full lg:w-[60%] min-h-[88vh] rounded-tl-[120px]  rounded-tr-[120px] flex items-center">
           
           <div className="w-full flex flex-col items-center px-8">
             
