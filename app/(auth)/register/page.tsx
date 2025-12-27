@@ -28,12 +28,12 @@ export default function Page() {
                      w-full lg:w-[60%]
                      min-h-screen
                      rounded-tl-[140px]
-                     flex items-center"
+                     flex items-center justify-center"
         >
-          <div className="w-full flex flex-col items-center px-10">
+          <div className="w-full max-w-md flex flex-col items-center px-10">
 
-            <div className="w-full max-w-sm mb-10 text-white text-center">
-              <h1 className="text-3xl font-bold mb-3 text-yellow-200">
+            <div className="mb-4 text-white text-center">
+              <h1 className="text-3xl font-bold mb-2 text-yellow-100">
                 Get Started Now
               </h1>
               <p className="text-sm opacity-90">
@@ -50,5 +50,6 @@ export default function Page() {
     </main>
   );
 }
+
 
 

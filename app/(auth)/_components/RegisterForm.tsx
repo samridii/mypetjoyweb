@@ -12,10 +12,10 @@ const registerSchema = z.object({
   email: z.string().email("Invalid email"),
   password: z.string().min(6, "Minimum 6 characters"),
   confirmPassword: z.string().min(6),
-  agree: z.boolean().refine(val => val === true, {
+  agree: z.boolean().refine((val) => val === true, {
     message: "You must accept the terms",
   }),
-}).refine(data => data.password === data.confirmPassword, {
+}).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords do not match",
   path: ["confirmPassword"],
 });
@@ -37,7 +37,7 @@ export default function RegisterForm() {
   const submit = () => {
     startTransition(async () => {
       await new Promise((r) => setTimeout(r, 1200));
-      router.push("/auth/dashboard");
+      router.push("/login");
     });
   };
 
@@ -150,5 +150,6 @@ export default function RegisterForm() {
     </form>
   );
 }
+
 
 

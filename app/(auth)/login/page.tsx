@@ -29,7 +29,7 @@ export default function Page() {
           <div className="w-full flex flex-col items-center px-8">
             
             <div className="w-full max-w-sm mb-10 text-white">
-              <h1 className="text-4xl font-bold mb-3">Welcome back!</h1>
+              <h1 className="text-4xl font-bold mb-3  text-yellow-100">Welcome back!</h1>
               <p className="text-sm font-light opacity-90 leading-relaxed">
                 Enter your credentials to access your account
               </p>

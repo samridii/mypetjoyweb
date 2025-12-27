@@ -24,7 +24,7 @@ export default function LoginForm() {
   const submit = () => {
     startTransition(async () => {
       await new Promise((r) => setTimeout(r, 1000));
-      router.push("/auth/dashboard");
+      router.push("/dashboard");
     });
   };
 
@@ -33,7 +33,7 @@ export default function LoginForm() {
       onSubmit={handleSubmit(submit)}
       className="w-full max-w-sm space-y-6 text-white"
     >
-      {/* Email */}
+
       <div className="space-y-1">
         <label className="text-sm font-medium ml-1">Email address</label>
         <input
@@ -48,7 +48,6 @@ export default function LoginForm() {
         )}
       </div>
 
-      {/* Password */}
       <div className="space-y-1">
         <label className="text-sm font-medium ml-1">Password</label>
         <input
@@ -73,7 +72,6 @@ export default function LoginForm() {
         </div>
       </div>
 
-      {/* Sign In Button */}
       <div className="flex justify-center pt-4">
         <button
           disabled={pending}
@@ -83,7 +81,6 @@ export default function LoginForm() {
         </button>
       </div>
 
-      {/* Sign Up */}
       <div className="text-center text-sm pt-6">
         <span className="opacity-80 font-light">
           Don&apos;t have an account?{" "}
