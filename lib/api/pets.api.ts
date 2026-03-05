@@ -1,4 +1,3 @@
-// lib/api/pets.api.ts
 import api from "./axios";
 import { API } from "./endpoint";
 

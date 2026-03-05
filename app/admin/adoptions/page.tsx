@@ -1,4 +1,3 @@
-// app/admin/adoptions/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -8,14 +7,12 @@ import { API } from "@/lib/api/endpoint";
 import type { Adoption, AdoptionStatus } from "@/lib/api/adoptions.api";
 import toast from "react-hot-toast";
 
-// ── config ────────────────────────────────────────────────────────────────────
 const STATUS_CONFIG: Record<AdoptionStatus, { label: string; dot: string; text: string; bg: string }> = {
   PENDING:  { label: "Pending",  dot: "bg-amber-400",   text: "text-amber-700",   bg: "bg-amber-50 border-amber-200"   },
   APPROVED: { label: "Approved", dot: "bg-emerald-400", text: "text-emerald-700", bg: "bg-emerald-50 border-emerald-200"},
   REJECTED: { label: "Rejected", dot: "bg-red-400",     text: "text-red-600",     bg: "bg-red-50 border-red-200"       },
 };
 
-// ── Detail modal ──────────────────────────────────────────────────────────────
 function AdoptionModal({ adoption, onClose, onStatusChange }: {
   adoption: Adoption;
   onClose: () => void;
@@ -49,7 +46,7 @@ function AdoptionModal({ adoption, onClose, onStatusChange }: {
 
         <div className="p-5 space-y-4">
 
-          {/* Status + date */}
+          {/* Status plus date */}
           <div className="flex items-center justify-between">
             <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-full border ${sc.bg} ${sc.text}`}>
               <span className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />{sc.label}
@@ -141,7 +138,6 @@ function AdoptionModal({ adoption, onClose, onStatusChange }: {
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function AdminAdoptionsPage() {
   const [adoptions, setAdoptions] = useState<Adoption[]>([]);
   const [loading, setLoading]     = useState(true);

@@ -1,4 +1,3 @@
-// app/admin/layout.tsx
 import { AdminSidebar } from "../../admin/dashboard/adminsidebar";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

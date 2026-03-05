@@ -1,4 +1,3 @@
-// lib/api/orders.api.ts
 import api from "./axios";
 import { API } from "./endpoint";
 

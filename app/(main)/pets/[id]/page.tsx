@@ -198,14 +198,12 @@ export default function PetDetailPage() {
                     <Icon size={96} className={`${cfg.iconColor} opacity-40`} strokeWidth={1} />
                   </div>
                 )}
-                {/* Arch bottom on image */}
                 <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
                   <svg viewBox="0 0 400 32" preserveAspectRatio="none" className="w-full h-8 block">
                     <path d="M0,32 C100,4 300,4 400,32 L400,32 L0,32 Z" fill="white" fillOpacity="0.15" />
                   </svg>
                 </div>
               </div>
-              {/* Status floating badge */}
               <div className="absolute top-4 right-4">
                 <span className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full border shadow-sm ${sc.bg} ${sc.text}`}>
                   <StatusIcon size={12} />{sc.label}

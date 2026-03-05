@@ -1,5 +1,5 @@
 "use server";
-// lib/actions/cart-action.ts
+
 import { addToCart, removeFromCart, clearCart } from "../../api/cart.api";
 import { revalidatePath } from "next/cache";
 
@@ -20,7 +20,6 @@ export const addToCartAction = async (productId: string, quantity: number) => {
     return { success: false, message: getErrMsg(err) || "Failed to add to cart" };
   }
 };
-
 export const removeFromCartAction = async (productId: string) => {
   try {
     const res = await removeFromCart(productId);
@@ -30,7 +29,6 @@ export const removeFromCartAction = async (productId: string) => {
     return { success: false, message: getErrMsg(err) || "Failed to remove from cart" };
   }
 };
-
 export const clearCartAction = async () => {
   try {
     const res = await clearCart();

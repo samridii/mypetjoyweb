@@ -1,5 +1,4 @@
 "use client";
-// app/(main)/shop/page.tsx
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,14 +12,10 @@ import { addToCart } from "@/lib/api/cart.api";
 import { useAuth } from "@/lib/context/AuthContext";
 import toast from "react-hot-toast";
 import Link from "next/link";
-
-// ── Extend the API Product type to include category ───────────────────────────
-// FIX 1: products.api.ts Product doesn't have category — extend it here
 interface Product extends ApiProduct {
   category?: string;
 }
 
-// ── Category config with Lucide icons (no emojis) ─────────────────────────────
 const CATEGORY_CONFIG: Record<string, {
   icon: React.ElementType;
   gradient: string;
@@ -38,7 +33,6 @@ function getCatConfig(category?: string) {
   return CATEGORY_CONFIG[category?.toLowerCase() ?? "other"] ?? CATEGORY_CONFIG.other;
 }
 
-// Static images per category — place in /public/products/
 const CATEGORY_IMAGES: Record<string, string[]> = {
   dog:   ["/public/husky.jpg",  "/products/dog2.jpg",  "/products/dog3.jpg"],
   cat:   ["/products/cat1.jpg",  "/products/cat2.jpg",  "/products/cat3.jpg"],
@@ -54,7 +48,6 @@ function productImg(p: Product, idx: number): string | null {
   return pool[idx % pool.length] ?? null;
 }
 
-// ── Constants ─────────────────────────────────────────────────────────────────
 const CATEGORIES = ["All", "Dog", "Cat", "Bird", "Fish", "Other"];
 const SORT_OPTIONS = [
   { value: "default",    label: "Featured"           },
@@ -65,7 +58,6 @@ const SORT_OPTIONS = [
 const PER_PAGE = 12;
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-// ── Product Card ──────────────────────────────────────────────────────────────
 function ProductCard({
   product, index, onAddToCart, wishlist, onToggleWish,
 }: {
@@ -194,7 +186,6 @@ function ProductCard({
   );
 }
 
-// ── Skeleton ──────────────────────────────────────────────────────────────────
 function Skeleton() {
   return (
     <div className="bg-white rounded-3xl border border-blue-50 overflow-hidden animate-pulse">
@@ -209,7 +200,6 @@ function Skeleton() {
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function ShopPage() {
   const { isAuthenticated } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
@@ -220,13 +210,19 @@ export default function ShopPage() {
   const [page, setPage]         = useState(1);
   const [wishlist, setWishlist] = useState<Set<string>>(new Set());
 
-  useEffect(() => {
-    setLoading(true);
-    getAllProducts()
-      // FIX 2: cast to Product[] since ApiProduct doesn't have category but backend sends it
-      .then(res => setProducts((res.data.data ?? []) as Product[]))
-      .catch(() => toast.error("Failed to load products"))
-      .finally(() => setLoading(false));
+useEffect(() => {
+    const load = async () => {
+      setLoading(true);
+      try {
+        const res = await getAllProducts();
+        setProducts((res.data.data ?? []) as Product[]);
+      } catch {
+        toast.error("Failed to load products");
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
 
   useEffect(() => { setPage(1); }, [search, category, sort]);
@@ -250,7 +246,6 @@ export default function ShopPage() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const paginated  = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
-  // FIX 3: addToCart takes (productId: string, quantity: number) — two separate args
   const handleAddToCart = async (product: Product, qty: number) => {
     if (!isAuthenticated) { toast.error("Please sign in to add to cart"); return; }
     try {
@@ -279,7 +274,6 @@ export default function ShopPage() {
       return acc;
     }, []);
 
-  // Category pill icon map
   const CAT_ICONS: Record<string, React.ElementType> = {
     all: ShoppingBag, dog: Dog, cat: Cat, bird: Bird, fish: Fish, other: PawPrint,
   };
@@ -287,7 +281,7 @@ export default function ShopPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-yellow-50/40 font-fredoka">
 
-      {/* ── Hero with arch ─────────────────────────────────────────────────── */}
+      {/*hero with arch*/}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#5b84c4] via-[#4a73b3] to-[#3d5f9a] pt-14 pb-32">
         <div className="absolute -top-24 -left-24 w-80 h-80 bg-yellow-300/20 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -top-12 right-0 w-96 h-96 bg-blue-300/15 rounded-full blur-3xl pointer-events-none" />
@@ -326,8 +320,6 @@ export default function ShopPage() {
             </div>
           </motion.div>
         </div>
-
-        {/* Arch SVG */}
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
           <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-16 sm:h-20 block">
             <path d="M0,80 C360,20 1080,20 1440,80 L1440,80 L0,80 Z" fill="white" />
@@ -335,7 +327,6 @@ export default function ShopPage() {
         </div>
       </section>
 
-      {/* ── Content ────────────────────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-20 relative z-10">
 
         {/* Category pills with icons */}

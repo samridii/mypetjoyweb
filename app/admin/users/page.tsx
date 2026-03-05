@@ -1,4 +1,3 @@
-// app/admin/users/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -11,7 +10,6 @@ import { API } from "@/lib/api/endpoint";
 import type { UserProfile } from "@/lib/api/user.api";
 import toast from "react-hot-toast";
 
-// ── Detail modal ──────────────────────────────────────────────────────────────
 function UserModal({ user, onClose }: { user: UserProfile; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40"
@@ -70,7 +68,6 @@ function UserModal({ user, onClose }: { user: UserProfile; onClose: () => void }
   );
 }
 
-// ── Delete confirm ────────────────────────────────────────────────────────────
 function DeleteConfirm({ name, onConfirm, onCancel, deleting }: {
   name: string; onConfirm: () => void; onCancel: () => void; deleting: boolean;
 }) {
@@ -103,7 +100,6 @@ function DeleteConfirm({ name, onConfirm, onCancel, deleting }: {
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function AdminUsersPage() {
   const [users, setUsers]     = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -117,7 +113,6 @@ export default function AdminUsersPage() {
     setLoading(true);
     try {
       const res = await api.get<{ data: UserProfile[] } | UserProfile[]>(API.ADMIN.USERS.GET_ALL);
-      // handle both { data: [...] } and [...] response shapes
       const data = Array.isArray(res.data) ? res.data : (res.data as any).data ?? [];
       setUsers(data);
     } catch { toast.error("Failed to load users"); }
@@ -240,7 +235,7 @@ export default function AdminUsersPage() {
               ) : (
                 filtered.map(user => (
                   <tr key={user.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                    {/* Avatar + name */}
+                    {/* Avatar and name */}
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#5b84c4] to-[#4a73b3] flex items-center justify-center flex-shrink-0">
@@ -296,8 +291,7 @@ export default function AdminUsersPage() {
           </table>
         </div>
       </div>
-
-      {/* Modals */}
+      
       {viewUser   && <UserModal   user={viewUser}   onClose={() => setViewUser(null)} />}
       {deleteUser && (
         <DeleteConfirm name={deleteUser.fullName} onConfirm={handleDelete}

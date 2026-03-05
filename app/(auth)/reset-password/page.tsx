@@ -1,7 +1,4 @@
 "use client";
-// app/(auth)/reset-password/page.tsx
-// The backend sends: CLIENT_URL/reset-password?token=<rawToken>
-
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -45,14 +42,13 @@ export default function ResetPasswordPage() {
     if (!token || !validate()) return;
     setLoading(true);
     try {
-      // FIX: resetPasswordAction requires (prevState, FormData) — build FormData manually
       const fd = new FormData();
       fd.append("token",           token);
       fd.append("password",        formData.password);
       fd.append("confirmPassword", formData.confirmPassword);
 
       const result = await resetPasswordAction(
-        { success: false, error: "" }, // prevState (ignored by action)
+        { success: false, error: "" }, 
         fd
       );
 
@@ -60,7 +56,6 @@ export default function ResetPasswordPage() {
         toast.success("Password reset successfully!");
         setStep("success");
       } else {
-        // FIX: ResetPasswordResult has result.error, not result.message
         toast.error(result.error || "Reset failed. The link may have expired.");
         if (result.error?.includes("expired") || result.error?.includes("invalid") || result.error?.includes("Invalid")) {
           setStep("invalid");
@@ -97,7 +92,6 @@ export default function ResetPasswordPage() {
   if (step === "success") {
     return (
       <div className="text-center py-4">
-        <div className="text-5xl mb-4">✅</div>
         <h2 className="text-xl font-bold text-gray-800 mb-2">Password reset!</h2>
         <p className="text-gray-500 text-sm mb-6">
           Your password has been updated successfully.
@@ -105,7 +99,7 @@ export default function ResetPasswordPage() {
         </p>
         <Link
           href="/login"
-          className="block w-full text-center bg-orange-500 hover:bg-orange-600
+          className="block w-full text-center bg-blue-500 hover:bg-blue-600
             text-white font-semibold py-2.5 rounded-xl transition-all shadow-md shadow-orange-200"
         >
           Sign in now
@@ -117,7 +111,6 @@ export default function ResetPasswordPage() {
   if (step === "invalid") {
     return (
       <div className="text-center py-4">
-        <div className="text-5xl mb-4">⏰</div>
         <h2 className="text-xl font-bold text-gray-800 mb-2">Link expired or invalid</h2>
         <p className="text-gray-500 text-sm mb-6 leading-relaxed">
           This password reset link is invalid or has expired (links are only valid for 15 minutes).
@@ -125,12 +118,12 @@ export default function ResetPasswordPage() {
         </p>
         <Link
           href="/forgot-password"
-          className="block w-full text-center bg-orange-500 hover:bg-orange-600
+          className="block w-full text-center bg-blue-500 hover:bg-blue-600
             text-white font-semibold py-2.5 rounded-xl transition-all shadow-md shadow-orange-200 mb-3"
         >
           Request new reset link
         </Link>
-        <Link href="/login" className="text-sm text-gray-500 hover:text-orange-500 transition-colors">
+        <Link href="/login" className="text-sm text-gray-500 hover:text-blue-500 transition-colors">
           ← Back to sign in
         </Link>
       </div>
@@ -158,7 +151,7 @@ export default function ResetPasswordPage() {
               placeholder="Min. 8 characters"
               autoComplete="new-password"
               className={`w-full px-4 py-2.5 pr-10 rounded-xl border text-sm outline-none transition-all
-                focus:ring-2 focus:ring-orange-300 focus:border-orange-400
+                focus:ring-2 focus:ring-orange-300 focus:border-blue-400
                 ${errors.password ? "border-red-400 bg-red-50" : "border-gray-200 bg-gray-50 hover:border-gray-300"}`}
             />
             <button type="button" onClick={() => setShowPassword((p) => !p)}
@@ -202,7 +195,7 @@ export default function ResetPasswordPage() {
               placeholder="Re-enter your new password"
               autoComplete="new-password"
               className={`w-full px-4 py-2.5 pr-10 rounded-xl border text-sm outline-none transition-all
-                focus:ring-2 focus:ring-orange-300 focus:border-orange-400
+                focus:ring-2 focus:ring-orange-300 focus:border-blue-400
                 ${errors.confirmPassword ? "border-red-400 bg-red-50" : "border-gray-200 bg-gray-50 hover:border-gray-300"}`}
             />
             <button type="button" onClick={() => setShowConfirmPassword((p) => !p)}
@@ -220,7 +213,7 @@ export default function ResetPasswordPage() {
         </div>
 
         <button type="submit" disabled={loading}
-          className="w-full bg-orange-500 hover:bg-orange-600 active:bg-orange-700
+          className="w-full bg-blue-500 hover:bg-blue-600 active:bg-blue-700
             text-white font-semibold py-2.5 rounded-xl transition-all duration-200
             disabled:opacity-60 disabled:cursor-not-allowed
             flex items-center justify-center gap-2 shadow-md shadow-orange-200 mt-2"

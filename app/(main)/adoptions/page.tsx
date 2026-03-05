@@ -13,7 +13,6 @@ import api from "@/lib/api/axios";
 import { API } from "@/lib/api/endpoint";
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
 interface AdoptionForm {
   fullName: string;
   email: string;
@@ -49,12 +48,10 @@ export default function AdoptionPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted]   = useState(false);
 
-  // Pre-fill from logged-in user
   useEffect(() => {
     if (user) setForm(p => ({ ...p, fullName: user.fullName || "", email: user.email || "" }));
   }, [user]);
 
-  // Redirect if not auth
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       toast.error("Please log in to submit an adoption request.");
@@ -90,7 +87,7 @@ export default function AdoptionPage() {
     if (!petId) { toast.error("No pet selected. Please go back and choose a pet."); return; }
     setSubmitting(true);
     try {
-      await api.post(API.ADOPTIONS.REQUEST, {
+      await api.post(API.ADOPTION.REQUEST, {
         pet:          petId,
         fullName:     form.fullName,
         email:        form.email,
@@ -120,7 +117,6 @@ export default function AdoptionPage() {
     </div>
   );
 
-  // Success screen
   if (submitted) return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-violet-50 px-4">
       <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
@@ -159,15 +155,13 @@ export default function AdoptionPage() {
           className="bg-white rounded-3xl shadow-xl border border-blue-50 overflow-hidden flex flex-col lg:flex-row"
           style={{ minHeight: "620px" }}>
 
-          {/* ── LEFT SPLASH PANEL ────────────────────────────────────────── */}
           <div className="relative lg:w-2/5 flex-shrink-0 bg-gradient-to-br from-[#5b84c4] via-[#4a73b3] to-[#3d5f9a] p-10 flex flex-col justify-between overflow-hidden">
 
-            {/* Decorative circles */}
             <div className="absolute -top-16 -left-16 w-56 h-56 bg-yellow-300/15 rounded-full blur-2xl pointer-events-none" />
             <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-violet-300/20 rounded-full blur-2xl pointer-events-none" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full pointer-events-none" />
 
-            {/* Top: logo + badge */}
+            {/* Top: logo and badge */}
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 bg-yellow-300/20 border border-yellow-300/30 text-yellow-200 text-xs font-semibold px-3 py-1.5 rounded-full mb-8">
                 <PawPrint size={11} /> Adoption Application
@@ -180,7 +174,7 @@ export default function AdoptionPage() {
               </p>
             </div>
 
-            {/* Middle: pet type icons */}
+            {/* Middle pet type icons */}
             <div className="relative z-10 flex gap-3 my-6">
               {[Dog, Cat, Bird, Fish].map((Icon, i) => (
                 <motion.div key={i}
@@ -193,7 +187,7 @@ export default function AdoptionPage() {
               ))}
             </div>
 
-            {/* Bottom: steps */}
+            {/* Bottom steps */}
             <div className="relative z-10 space-y-3">
               {[
                 { icon: User,        label: "Fill your details"     },
@@ -216,7 +210,6 @@ export default function AdoptionPage() {
                 <path d="M32,0 C12,200 12,600 32,800 L32,800 L32,0 Z" fill="white" />
               </svg>
             </div>
-            {/* Arch bottom edge (mobile) */}
             <div className="absolute bottom-0 left-0 right-0 h-8 pointer-events-none lg:hidden">
               <svg viewBox="0 0 600 32" preserveAspectRatio="none" className="w-full h-full">
                 <path d="M0,32 C150,4 450,4 600,32 L600,32 L0,32 Z" fill="white" />
@@ -224,7 +217,6 @@ export default function AdoptionPage() {
             </div>
           </div>
 
-          {/* ── RIGHT FORM PANEL ──────────────────────────────────────────── */}
           <div className="flex-1 p-8 lg:p-10 overflow-y-auto">
             <div className="mb-6">
               <h3 className="text-xl font-extrabold text-gray-800 mb-1">Adoption Request</h3>

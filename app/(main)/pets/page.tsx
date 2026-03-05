@@ -143,12 +143,19 @@ export default function PetsPage() {
   const [status, setStatus]     = useState("All");
   const [page, setPage]         = useState(1);
 
-  useEffect(() => {
-    setLoading(true);
-    getAllPets()
-      .then(res => setPets(res.data.data ?? []))
-      .catch(() => toast.error("Failed to load pets"))
-      .finally(() => setLoading(false));
+ useEffect(() => {
+    const load = async () => {
+      setLoading(true);
+      try {
+        const res = await getAllPets();
+        setPets(res.data.data ?? []);
+      } catch {
+        toast.error("Failed to load pets");
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
 
   useEffect(() => { setPage(1); }, [search, category, status]);

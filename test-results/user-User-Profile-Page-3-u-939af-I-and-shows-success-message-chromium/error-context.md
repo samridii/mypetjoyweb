@@ -1,87 +1,78 @@
 # Page snapshot
 
 ```yaml
-- generic [ref=e1]:
-  - generic [ref=e3]:
-    - heading "404" [level=1] [ref=e4]
-    - heading "This page could not be found." [level=2] [ref=e6]
+- generic:
   - generic [active]:
-    - generic [ref=e9]:
-      - generic [ref=e10]:
-        - generic [ref=e11]:
-          - navigation [ref=e12]:
-            - button "previous" [disabled] [ref=e13]:
-              - img "previous" [ref=e14]
-            - generic [ref=e16]:
-              - generic [ref=e17]: 1/
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - navigation [ref=e6]:
+            - button "previous" [disabled] [ref=e7]:
+              - img "previous" [ref=e8]
+            - generic [ref=e10]:
+              - generic [ref=e11]: 1/
               - text: "1"
-            - button "next" [disabled] [ref=e18]:
-              - img "next" [ref=e19]
+            - button "next" [disabled] [ref=e12]:
+              - img "next" [ref=e13]
           - img
-        - generic [ref=e21]:
-          - link "Next.js 16.1.1 (stale) Turbopack" [ref=e22] [cursor=pointer]:
+        - generic [ref=e15]:
+          - link "Next.js 16.1.1 (stale) Turbopack" [ref=e16] [cursor=pointer]:
             - /url: https://nextjs.org/docs/messages/version-staleness
-            - img [ref=e23]
-            - generic "There is a newer version (16.1.6) available, upgrade recommended!" [ref=e25]: Next.js 16.1.1 (stale)
-            - generic [ref=e26]: Turbopack
+            - img [ref=e17]
+            - generic "There is a newer version (16.1.6) available, upgrade recommended!" [ref=e19]: Next.js 16.1.1 (stale)
+            - generic [ref=e20]: Turbopack
           - img
-      - dialog "Build Error" [ref=e28]:
-        - generic [ref=e31]:
-          - generic [ref=e32]:
-            - generic [ref=e33]:
-              - generic [ref=e35]: Build Error
-              - generic [ref=e36]:
-                - button "Copy Error Info" [ref=e37] [cursor=pointer]:
-                  - img [ref=e38]
-                - button "No related documentation found" [disabled] [ref=e40]:
-                  - img [ref=e41]
-                - button "Attach Node.js inspector" [ref=e43] [cursor=pointer]:
-                  - img [ref=e44]
-            - generic [ref=e53]: Ecmascript file had an error
-          - generic [ref=e55]:
-            - generic [ref=e57]:
-              - img [ref=e59]
-              - generic [ref=e63]: ./lib/cookie.ts (53:14)
-              - button "Open in editor" [ref=e64] [cursor=pointer]:
-                - img [ref=e66]
-            - generic [ref=e69]:
-              - generic [ref=e70]: Ecmascript file had an error
-              - generic [ref=e71]: 51 |
-              - generic [ref=e72]: 52 |
-              - generic [ref=e73]: "// FIX: was setting cookie named \"user\" — changed to \"user_data\" to match getUserData"
-              - text: ">"
-              - generic [ref=e74]: 53 |
-              - text: export const
-              - generic [ref=e75]: clientSetUserData
-              - text: =
-              - generic [ref=e76]: (user
-              - text: ":"
-              - generic [ref=e77]: any)
-              - text: =>
-              - generic [ref=e78]: "{"
-              - generic [ref=e79]: "|"
-              - text: ^^^^^^^^^^^^^^^^^
-              - generic [ref=e80]: 54 |
-              - generic [ref=e81]: document
-              - text: .
-              - generic [ref=e82]: cookie
-              - text: =
-              - generic [ref=e83]: "`user_data=${encodeURIComponent(JSON.stringify(user))}; path=/`"
-              - text: ;
-              - generic [ref=e84]: 55 |
-              - generic [ref=e85]: "}"
-              - text: ;
-              - generic [ref=e86]: 56 |
-              - generic [ref=e87]: "Server Actions must be async functions. Import trace: Server Component: ./lib/cookie.ts ./lib/actions/admin/auth-action.ts"
-        - generic [ref=e88]: "1"
-        - generic [ref=e89]: "2"
-    - generic [ref=e94] [cursor=pointer]:
-      - button "Open Next.js Dev Tools" [ref=e95]:
-        - img [ref=e96]
-      - button "Open issues overlay" [ref=e100]:
-        - generic [ref=e101]:
-          - generic [ref=e102]: "0"
-          - generic [ref=e103]: "1"
-        - generic [ref=e104]: Issue
-  - alert [ref=e105]
+      - generic [ref=e21]:
+        - dialog "Runtime Error" [ref=e22]:
+          - generic [ref=e25]:
+            - generic [ref=e26]:
+              - generic [ref=e27]:
+                - generic [ref=e29]: Runtime Error
+                - generic [ref=e30]:
+                  - button "Copy Error Info" [ref=e31] [cursor=pointer]:
+                    - img [ref=e32]
+                  - button "No related documentation found" [disabled] [ref=e34]:
+                    - img [ref=e35]
+                  - button "Attach Node.js inspector" [ref=e37] [cursor=pointer]:
+                    - img [ref=e38]
+              - generic [ref=e47]: "An unexpected Turbopack error occurred. Please see the output of `next dev` for more details."
+            - generic [ref=e49]:
+              - paragraph [ref=e51]:
+                - text: Call Stack
+                - generic [ref=e52]: "2"
+              - generic [ref=e53]:
+                - generic [ref=e54]:
+                  - text: getServerError
+                  - button "Sourcemapping failed. Click to log cause of error." [ref=e55] [cursor=pointer]:
+                    - img [ref=e56]
+                - text: file:///C:/Users/Asus%20vivobook/OneDrive/Documents/mypetjoyweb/.next/dev/static/chunks/node_modules_next_dist_fe4545e6._.js (802:62)
+              - generic [ref=e58]:
+                - generic [ref=e59]:
+                  - text: <unknown>
+                  - button "Sourcemapping failed. Click to log cause of error." [ref=e60] [cursor=pointer]:
+                    - img [ref=e61]
+                - text: file:///C:/Users/Asus%20vivobook/OneDrive/Documents/mypetjoyweb/.next/dev/static/chunks/node_modules_next_dist_client_5a8a528e._.js (3621:27)
+          - generic [ref=e63]: "1"
+          - generic [ref=e64]: "2"
+        - contentinfo [ref=e65]:
+          - region "Error feedback" [ref=e66]:
+            - paragraph [ref=e67]:
+              - link "Was this helpful?" [ref=e68] [cursor=pointer]:
+                - /url: https://nextjs.org/telemetry#error-feedback
+            - button "Mark as helpful" [ref=e69] [cursor=pointer]:
+              - img [ref=e70]
+            - button "Mark as not helpful" [ref=e73] [cursor=pointer]:
+              - img [ref=e74]
+    - generic [ref=e80] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e81]:
+        - img [ref=e82]
+      - generic [ref=e85]:
+        - button "Open issues overlay" [ref=e86]:
+          - generic [ref=e87]:
+            - generic [ref=e88]: "0"
+            - generic [ref=e89]: "1"
+          - generic [ref=e90]: Issue
+        - button "Collapse issues badge" [ref=e91]:
+          - img [ref=e92]
+  - alert [ref=e94]
 ```

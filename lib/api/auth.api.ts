@@ -1,12 +1,8 @@
-// lib/api/auth.api.ts
-// Renamed from auth.ts → auth.api.ts for consistent naming convention across the project.
-// Added forgotPassword and resetPassword to match backend routes.
-
 import api from "./axios";
 import { API } from "./endpoint";
 
 export interface RegisterData {
-  fullName: string;   // FIXED: backend requires 'fullName', original used just email+password
+  fullName: string;   
   email: string;
   password: string;
   role?: "user" | "admin";

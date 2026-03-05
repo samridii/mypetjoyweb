@@ -1,10 +1,3 @@
-// app/(main)/layout.tsx
-//
-// FIX: Removed <html> and <body> tags — they belong ONLY in app/layout.tsx.
-//      Having them here caused the hydration mismatch because the root layout
-//      already renders <html lang="en"> with the Fredoka font class, and this
-//      nested layout was rendering a second conflicting <html>/<body>.
-
 import type { Metadata } from "next";
 import { AuthProvider } from "@/lib/context/AuthContext";
 import { Toaster } from "react-hot-toast";
@@ -17,7 +10,6 @@ export const metadata: Metadata = {
 };
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
-  // FIX: no <html> or <body> here — root layout owns those
   return (
     <AuthProvider>
       <Navbar />

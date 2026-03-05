@@ -1,4 +1,3 @@
-// lib/api/adoptions.api.ts
 import api from "./axios";
 import { API } from "./endpoint";
 
@@ -24,4 +23,4 @@ export interface Adoption extends AdoptionRequest {
 }
 
 export const requestAdoption = (data: AdoptionRequest) =>
-  api.post<{ success: boolean; message: string; data: Adoption }>(API.ADOPTIONS.REQUEST, data);
+  api.post<{ success: boolean; message: string; data: Adoption }>(API.ADOPTION.REQUEST, data);

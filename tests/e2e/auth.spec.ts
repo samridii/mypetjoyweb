@@ -1,4 +1,3 @@
-// tests/e2e/auth.spec.ts
 import { test, expect } from "@playwright/test";
 
 async function mockRegister(page: any, status = 201, body?: object) {
@@ -26,7 +25,6 @@ async function mockReset(page: any) {
   );
 }
 
-// ── Register ─────────────────────────────────────────────────────────────
 test.describe("Register Page", () => {
   test("1. register page loads without crashing", async ({ page }) => {
     await mockRegister(page);
@@ -60,7 +58,6 @@ test.describe("Register Page", () => {
   });
 });
 
-// ── Login ─────────────────────────────────────────────────────────────────
 test.describe("Login Page", () => {
   test("6. login page loads without crashing", async ({ page }) => {
     const res = await page.goto("/login");
@@ -92,12 +89,10 @@ test.describe("Login Page", () => {
     await page.locator("input[type='password']").first().fill("Password1!");
     await page.locator("button[type='submit'], button:has-text('Login'), button:has-text('Sign in')").first().click();
     await page.waitForTimeout(1500);
-    // either redirected OR still on page — both acceptable, no crash = pass
     expect(true).toBe(true);
   });
 });
 
-// ── Forgot / Reset ────────────────────────────────────────────────────────
 test.describe("Forgot and Reset Password Pages", () => {
   test("11. forgot-password page loads without crashing", async ({ page }) => {
     const res = await page.goto("/forgot-password");

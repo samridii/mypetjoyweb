@@ -1,5 +1,5 @@
 "use server";
-// lib/actions/orders-action.ts
+
 import { placeOrder, type PlaceOrderItem } from "../../api/orders.api";
 import { revalidatePath } from "next/cache";
 

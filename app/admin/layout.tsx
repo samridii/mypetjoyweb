@@ -1,61 +1,46 @@
-"use client";
+import type { Metadata } from "next";
+import { AuthProvider } from "@/lib/context/AuthContext";
+import { Toaster } from "react-hot-toast";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+export const metadata: Metadata = {
+  title: "MyPetJoy — Find Your Perfect Pet",
+  description: "Adopt pets, shop supplies, and give animals a loving home.",
+};
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname();
-
-  const navItems = [
-    { name: "Dashboard", href: "/admin/dashboard" },
-    { name: "Products", href: "/admin/products" },
-    { name: "Pets", href: "/admin/pets" },
-    { name: "Orders", href: "/admin/orders" },
-    { name: "Adoptions", href: "/admin/adoptions" },
-    { name: "Users", href: "/admin/users" },
-  ];
-
+export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <aside className="w-64 bg-gradient-to-b from-blue-500 to-blue-400 text-white p-6 flex flex-col justify-between">
-        <div>
-          <h2 className="text-2xl font-bold mb-10">PetJoy Admin</h2>
-
-          <nav className="space-y-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`block px-4 py-2 rounded-lg transition ${
-                  pathname === item.href
-                    ? "bg-white text-blue-600 font-semibold"
-                    : "hover:bg-blue-300"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-        </div>
-
-        <button
-          onClick={() => {
-            localStorage.removeItem("adminToken");
-            window.location.href = "/admin/login";
-          }}
-          className="bg-white text-blue-600 py-2 rounded-lg font-semibold"
-        >
-          Logout
-        </button>
-      </aside>
-
-      <main className="flex-1 p-8 overflow-y-auto">
+    <AuthProvider>
+      <Navbar />
+      <main className="flex-1">
         {children}
       </main>
-    </div>
+      <Footer />
+      <Toaster
+        position="top-right"
+        gutter={10}
+        containerStyle={{ top: 16, right: 16 }}
+        toastOptions={{
+          duration: 4000,
+          style: {
+            fontFamily: "var(--font-fredoka), Fredoka, sans-serif",
+            fontSize: "15px",
+            fontWeight: "500",
+            padding: "12px 18px",
+            borderRadius: "18px",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.10)",
+          },
+          success: {
+            style: { background: "#f0fdf4", color: "#15803d", border: "1.5px solid #bbf7d0" },
+            iconTheme: { primary: "#22c55e", secondary: "#f0fdf4" },
+          },
+          error: {
+            style: { background: "#fff1f2", color: "#be123c", border: "1.5px solid #fecdd3" },
+            iconTheme: { primary: "#f43f5e", secondary: "#fff1f2" },
+          },
+        }}
+      />
+    </AuthProvider>
   );
 }

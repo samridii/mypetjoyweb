@@ -3,25 +3,20 @@
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-// FIX: use @/ alias instead of fragile relative ../../../
 import { resetPasswordAction, type ResetPasswordResult } from "@/lib/actions/admin/auth-action";
 
-// initialState matches ResetPasswordResult exactly: { success, error } ✓
 const initialState: ResetPasswordResult = {
   success: false,
   error:   "",
 };
 
-// token prop is passed from the page (read from searchParams server-side)
 export default function ResetPasswordForm({ token }: { token: string }) {
   const router = useRouter();
 
-  // resetPasswordAction signature is (prevState: ResetPasswordResult, formData: FormData) ✓
   const [state, formAction, isPending] = useActionState(resetPasswordAction, initialState);
 
   useEffect(() => {
     if (state.success) {
-      // Short delay so user sees the success state before redirect
       setTimeout(() => router.push("/login?reset=true"), 1500);
     }
   }, [state.success, router]);
@@ -38,10 +33,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
 
   return (
     <form action={formAction} className="w-full max-w-sm space-y-4">
-      {/* Hidden token — passed to resetPasswordAction via formData.get("token") ✓ */}
       <input type="hidden" name="token" value={token} />
-
-      {/* reads state.error — matches ResetPasswordResult.error ✓ */}
       {state.error && (
         <div className="bg-red-100 border border-red-300 text-red-700 text-sm px-4 py-3 rounded-xl">
           {state.error}

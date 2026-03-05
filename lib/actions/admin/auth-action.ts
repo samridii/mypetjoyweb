@@ -1,5 +1,4 @@
 "use server";
-// lib/actions/admin/auth-action.ts
 
 import { registerUser, loginUser, forgotPassword, resetPassword, type RegisterData } from "../../api/auth.api";
 import { clearAuthCookies, getAuthToken, getUserData, type UserData } from "../../cookie";
@@ -29,9 +28,6 @@ export const registerAction = async (data: RegisterData): Promise<RegisterResult
   }
 };
 
-// FIX: Do NOT call setAuthToken/setUserData here — next/headers cookies() cannot
-// be set inside a server action invoked from a client component in Next.js 14.
-// Instead, return the token+user to the client and set cookies there.
 export const loginAction = async (_prevState: LoginResult, formData: FormData): Promise<LoginResult> => {
   const email    = formData.get("email")    as string;
   const password = formData.get("password") as string;
@@ -54,7 +50,6 @@ export const loginAction = async (_prevState: LoginResult, formData: FormData): 
       role:     body.user.role,
     };
 
-    // Return token + user to client — login page sets cookies via clientSetAuthToken/clientSetUserData
     return { success: true, error: "", user: userData, token: body.token };
 
   } catch (err: unknown) {

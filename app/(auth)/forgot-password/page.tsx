@@ -1,5 +1,4 @@
 "use client";
-// app/(auth)/forgot-password/page.tsx
 
 import { useState } from "react";
 import Link from "next/link";
@@ -26,21 +25,18 @@ export default function ForgotPasswordPage() {
     if (!validate()) return;
     setLoading(true);
     try {
-      // FIX: forgotPasswordAction requires (prevState, FormData) — build FormData manually
       const fd = new FormData();
       fd.append("email", email);
 
       const result = await forgotPasswordAction(
-        { success: false, error: "", message: "" }, // prevState (ignored by action)
+        { success: false, error: "", message: "" }, 
         fd
       );
 
-      // Always show success to avoid user enumeration
       toast.success("Reset link sent if that email exists!");
       setStep("sent");
 
       if (!result.success) {
-        // FIX: ForgotPasswordResult has result.error, not result.message
         console.warn("Forgot password:", result.error);
       }
     } catch {

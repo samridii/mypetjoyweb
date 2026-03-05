@@ -6,6 +6,9 @@ import {
   PawPrint, Dog, Cat, Bird, Fish, Home, Zap, Clock,
   Star, Baby, Wind, Ruler, Heart, ChevronRight, ChevronLeft,
   Sparkles, RotateCcw, ArrowRight,
+  Building2, Building, Activity, Coffee, Tv,
+  AlarmClock, Timer, Sprout, Leaf, Trees, Trophy,
+  User, Users, Check, Shield, AlertTriangle, CheckCircle,
 } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -13,7 +16,6 @@ import { submitQuiz } from "@/lib/api/quiz.api";
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-// ── Quiz questions ────────────────────────────────────────────────────────────
 const QUESTIONS = [
   {
     id: "living",
@@ -21,10 +23,10 @@ const QUESTIONS = [
     question: "Where do you live?",
     subtitle: "Your space helps us find the right fit",
     options: [
-      { value: "house_yard",  label: "House with yard",  icon: "🏡" },
-      { value: "house_small", label: "House, no yard",   icon: "🏠" },
-      { value: "apartment",   label: "Apartment",        icon: "🏢" },
-      { value: "condo",       label: "Condo / Studio",   icon: "🏙️" },
+      { value: "house_yard",  label: "House with yard",  icon: Home      },
+      { value: "house_small", label: "House, no yard",   icon: Building2 },
+      { value: "apartment",   label: "Apartment",        icon: Building  },
+      { value: "condo",       label: "Condo / Studio",   icon: Building  },
     ],
   },
   {
@@ -33,10 +35,10 @@ const QUESTIONS = [
     question: "How active is your lifestyle?",
     subtitle: "Be honest — your pet will match your energy!",
     options: [
-      { value: "very_active",   label: "Very active",     icon: "🏃" },
-      { value: "moderately",    label: "Moderately active",icon: "🚶" },
-      { value: "low",           label: "Prefer relaxing", icon: "🛋️" },
-      { value: "mostly_indoors",label: "Mostly indoors",  icon: "📺" },
+      { value: "very_active",   label: "Very active",      icon: Zap      },
+      { value: "moderately",    label: "Moderately active", icon: Activity },
+      { value: "low",           label: "Prefer relaxing",  icon: Coffee   },
+      { value: "mostly_indoors",label: "Mostly indoors",   icon: Tv       },
     ],
   },
   {
@@ -45,10 +47,10 @@ const QUESTIONS = [
     question: "How many hours are you home daily?",
     subtitle: "Some pets need more company than others",
     options: [
-      { value: "less_4",  label: "Less than 4 hrs",  icon: "⏰" },
-      { value: "4_to_8",  label: "4 – 8 hours",      icon: "🕐" },
-      { value: "8_to_12", label: "8 – 12 hours",     icon: "🕗" },
-      { value: "most_day",label: "Most of the day",  icon: "🏠" },
+      { value: "less_4",  label: "Less than 4 hrs", icon: AlarmClock },
+      { value: "4_to_8",  label: "4 – 8 hours",     icon: Clock      },
+      { value: "8_to_12", label: "8 – 12 hours",    icon: Timer      },
+      { value: "most_day",label: "Most of the day", icon: Home       },
     ],
   },
   {
@@ -57,10 +59,10 @@ const QUESTIONS = [
     question: "What's your experience with pets?",
     subtitle: "No wrong answer — we all start somewhere",
     options: [
-      { value: "none",       label: "First-time owner", icon: "🌱" },
-      { value: "some",       label: "Some experience",  icon: "🌿" },
-      { value: "experienced",label: "Experienced",      icon: "🌳" },
-      { value: "expert",     label: "Expert / Breeder", icon: "🏆" },
+      { value: "none",       label: "First-time owner", icon: Sprout },
+      { value: "some",       label: "Some experience",  icon: Leaf   },
+      { value: "experienced",label: "Experienced",      icon: Trees  },
+      { value: "expert",     label: "Expert / Breeder", icon: Trophy },
     ],
   },
   {
@@ -69,10 +71,10 @@ const QUESTIONS = [
     question: "Do you have children at home?",
     subtitle: "Helps us suggest pet-friendly breeds",
     options: [
-      { value: "no",          label: "No children",     icon: "🧑" },
-      { value: "toddlers",    label: "Toddlers (0–4)",  icon: "👶" },
-      { value: "young",       label: "Young (5–12)",    icon: "🧒" },
-      { value: "teens",       label: "Teenagers",       icon: "👦" },
+      { value: "no",       label: "No children",    icon: User  },
+      { value: "toddlers", label: "Toddlers (0–4)", icon: Baby  },
+      { value: "young",    label: "Young (5–12)",   icon: Users },
+      { value: "teens",    label: "Teenagers",      icon: User  },
     ],
   },
   {
@@ -81,10 +83,10 @@ const QUESTIONS = [
     question: "Any pet allergies in the household?",
     subtitle: "Some breeds are hypoallergenic",
     options: [
-      { value: "none",     label: "No allergies",       icon: "✅" },
-      { value: "mild",     label: "Mild allergies",     icon: "🤧" },
-      { value: "moderate", label: "Moderate allergies", icon: "😷" },
-      { value: "severe",   label: "Severe allergies",   icon: "🚨" },
+      { value: "none",     label: "No allergies",       icon: CheckCircle    },
+      { value: "mild",     label: "Mild allergies",     icon: Check          },
+      { value: "moderate", label: "Moderate allergies", icon: Shield         },
+      { value: "severe",   label: "Severe allergies",   icon: AlertTriangle  },
     ],
   },
   {
@@ -93,10 +95,10 @@ const QUESTIONS = [
     question: "What size pet do you prefer?",
     subtitle: "Big love comes in all sizes",
     options: [
-      { value: "small",  label: "Small (< 10 lbs)",  icon: "🐹" },
-      { value: "medium", label: "Medium (10–40 lbs)",icon: "🐕" },
-      { value: "large",  label: "Large (40+ lbs)",   icon: "🐕‍🦺" },
-      { value: "any",    label: "No preference",     icon: "🐾" },
+      { value: "small",  label: "Small (< 10 lbs)",   icon: Cat     },
+      { value: "medium", label: "Medium (10–40 lbs)", icon: Dog     },
+      { value: "large",  label: "Large (40+ lbs)",    icon: Dog     },
+      { value: "any",    label: "No preference",      icon: PawPrint},
     ],
   },
   {
@@ -105,18 +107,13 @@ const QUESTIONS = [
     question: "Why do you want to adopt?",
     subtitle: "Your motivation helps us find your perfect match",
     options: [
-      { value: "companion",  label: "Companionship",    icon: "💛" },
-      { value: "family",     label: "Family pet",       icon: "👨‍👩‍👧" },
-      { value: "exercise",   label: "Exercise buddy",   icon: "🏃" },
-      { value: "emotional",  label: "Emotional support",icon: "🤗" },
+      { value: "companion", label: "Companionship",     icon: Heart    },
+      { value: "family",    label: "Family pet",        icon: Users    },
+      { value: "exercise",  label: "Exercise buddy",    icon: Zap      },
+      { value: "emotional", label: "Emotional support", icon: Star     },
     ],
   },
 ];
-
-// ── Pet type icon map for result ──────────────────────────────────────────────
-const PET_ICONS: Record<string, React.ElementType> = {
-  dog: Dog, cat: Cat, bird: Bird, fish: Fish,
-};
 
 function getPetIcon(text: string): React.ElementType {
   const lower = text.toLowerCase();
@@ -127,7 +124,6 @@ function getPetIcon(text: string): React.ElementType {
   return PawPrint;
 }
 
-// ── Progress bar ──────────────────────────────────────────────────────────────
 function ProgressBar({ current, total }: { current: number; total: number }) {
   return (
     <div className="flex items-center gap-3 mb-8">
@@ -144,14 +140,14 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
   );
 }
 
-// ── Option button ─────────────────────────────────────────────────────────────
 function OptionBtn({
   option, selected, onClick,
 }: {
-  option: { value: string; label: string; icon: string };
+  option: { value: string; label: string; icon: React.ElementType };
   selected: boolean;
   onClick: () => void;
 }) {
+  const Icon = option.icon;
   return (
     <motion.button
       type="button"
@@ -164,7 +160,9 @@ function OptionBtn({
           : "border-slate-100 bg-white hover:border-blue-200 hover:bg-blue-50/30"
       }`}
     >
-      <span className="text-2xl w-8 text-center flex-shrink-0">{option.icon}</span>
+      <span className={`w-8 flex items-center justify-center flex-shrink-0 ${selected ? "text-[#4a73b3]" : "text-gray-400"}`}>
+        <Icon size={20} strokeWidth={1.8} />
+      </span>
       <span className={`text-sm font-semibold ${selected ? "text-[#4a73b3]" : "text-gray-700"}`}>
         {option.label}
       </span>
@@ -180,7 +178,6 @@ function OptionBtn({
   );
 }
 
-// ── Loading dots ──────────────────────────────────────────────────────────────
 function LoadingDots() {
   return (
     <div className="flex items-center gap-1.5">
@@ -193,15 +190,14 @@ function LoadingDots() {
   );
 }
 
-// ── Main page ─────────────────────────────────────────────────────────────────
 export default function QuizPage() {
-  const [step, setStep]             = useState<"intro" | "quiz" | "loading" | "result">("intro");
-  const [currentQ, setCurrentQ]     = useState(0);
-  const [answers, setAnswers]       = useState<Record<string, string>>({});
-  const [recommendation, setRec]    = useState("");
-  const [direction, setDirection]   = useState(1); // 1 = forward, -1 = back
+  const [step, setStep]           = useState<"intro" | "quiz" | "loading" | "result">("intro");
+  const [currentQ, setCurrentQ]   = useState(0);
+  const [answers, setAnswers]     = useState<Record<string, string>>({});
+  const [recommendation, setRec]  = useState("");
+  const [direction, setDirection] = useState(1);
 
-  const total   = QUESTIONS.length;
+  const total    = QUESTIONS.length;
   const question = QUESTIONS[currentQ];
   const selected = answers[question?.id];
   const canNext  = !!selected;
@@ -213,11 +209,8 @@ export default function QuizPage() {
   const goNext = () => {
     if (!canNext) return;
     setDirection(1);
-    if (currentQ < total - 1) {
-      setCurrentQ(q => q + 1);
-    } else {
-      submitAnswers();
-    }
+    if (currentQ < total - 1) setCurrentQ(q => q + 1);
+    else submitAnswers();
   };
 
   const goBack = () => {
@@ -229,7 +222,6 @@ export default function QuizPage() {
   const submitAnswers = async () => {
     setStep("loading");
     try {
-      // Call our Next.js API route which calls Groq
       const res = await fetch("/api/quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -238,8 +230,7 @@ export default function QuizPage() {
       const data = await res.json();
       if (data.success && data.recommendation) {
         setRec(data.recommendation);
-        // Also save to backend
-        try { await submitQuiz(answers); } catch { /* non-critical */ }
+        try { await submitQuiz(answers); } catch { }
         setStep("result");
       } else {
         throw new Error("No recommendation");
@@ -263,7 +254,6 @@ export default function QuizPage() {
     exit:   (d: number) => ({ opacity: 0, x: d > 0 ? -40 : 40 }),
   };
 
-  // ── INTRO ──────────────────────────────────────────────────────────────────
   if (step === "intro") return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-violet-50/40 flex items-center justify-center px-4 py-12">
       <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
@@ -271,7 +261,6 @@ export default function QuizPage() {
         className="w-full max-w-lg">
 
         <div className="bg-white rounded-3xl shadow-xl border border-blue-50 overflow-hidden">
-          {/* Header gradient */}
           <div className="relative bg-gradient-to-br from-[#5b84c4] via-[#4a73b3] to-[#3d5f9a] p-10 text-center overflow-hidden">
             <div className="absolute -top-10 -left-10 w-40 h-40 bg-yellow-300/15 rounded-full blur-2xl" />
             <div className="absolute -bottom-8 -right-8 w-36 h-36 bg-violet-300/20 rounded-full blur-2xl" />
@@ -290,7 +279,6 @@ export default function QuizPage() {
               Answer 8 quick questions and our AI will recommend the ideal pet and breed for your lifestyle.
             </p>
 
-            {/* Arch bottom */}
             <div className="absolute bottom-0 left-0 right-0">
               <svg viewBox="0 0 600 24" preserveAspectRatio="none" className="w-full h-6">
                 <path d="M0,24 C150,0 450,0 600,24 L600,24 L0,24 Z" fill="white" />
@@ -299,13 +287,12 @@ export default function QuizPage() {
           </div>
 
           <div className="p-8">
-            {/* Pet type icons */}
             <div className="flex justify-center gap-4 mb-8">
               {[
-                { Icon: Dog,  label: "Dogs",  color: "text-amber-500",  bg: "bg-amber-50",  border: "border-amber-100" },
-                { Icon: Cat,  label: "Cats",  color: "text-rose-500",   bg: "bg-rose-50",   border: "border-rose-100"  },
-                { Icon: Bird, label: "Birds", color: "text-sky-500",    bg: "bg-sky-50",    border: "border-sky-100"   },
-                { Icon: Fish, label: "Fish",  color: "text-cyan-500",   bg: "bg-cyan-50",   border: "border-cyan-100"  },
+                { Icon: Dog,  label: "Dogs",  color: "text-amber-500", bg: "bg-amber-50", border: "border-amber-100" },
+                { Icon: Cat,  label: "Cats",  color: "text-rose-500",  bg: "bg-rose-50",  border: "border-rose-100"  },
+                { Icon: Bird, label: "Birds", color: "text-sky-500",   bg: "bg-sky-50",   border: "border-sky-100"   },
+                { Icon: Fish, label: "Fish",  color: "text-cyan-500",  bg: "bg-cyan-50",  border: "border-cyan-100"  },
               ].map(({ Icon, label, color, bg, border }, i) => (
                 <motion.div key={label}
                   initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
@@ -317,7 +304,6 @@ export default function QuizPage() {
               ))}
             </div>
 
-            {/* What you'll get */}
             <div className="bg-gradient-to-r from-blue-50 to-violet-50 rounded-2xl p-4 mb-6 space-y-2">
               {[
                 "Personalized pet type recommendation",
@@ -350,7 +336,6 @@ export default function QuizPage() {
     </div>
   );
 
-  // ── LOADING ────────────────────────────────────────────────────────────────
   if (step === "loading") return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-violet-50/40 flex items-center justify-center px-4">
       <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
@@ -371,7 +356,6 @@ export default function QuizPage() {
           <LoadingDots />
         </div>
 
-        {/* Animated pet icons */}
         <div className="flex justify-center gap-3">
           {[Dog, Cat, Bird, Fish].map((Icon, i) => (
             <motion.div key={i}
@@ -386,7 +370,6 @@ export default function QuizPage() {
     </div>
   );
 
-  // ── RESULT ─────────────────────────────────────────────────────────────────
   if (step === "result") {
     const PetIcon = getPetIcon(recommendation);
     return (
@@ -396,7 +379,6 @@ export default function QuizPage() {
           className="w-full max-w-lg">
 
           <div className="bg-white rounded-3xl shadow-xl border border-blue-50 overflow-hidden">
-            {/* Result header */}
             <div className="relative bg-gradient-to-br from-[#5b84c4] via-[#4a73b3] to-[#3d5f9a] p-8 text-center overflow-hidden">
               <div className="absolute -top-8 -left-8 w-32 h-32 bg-yellow-300/15 rounded-full blur-2xl" />
               <div className="absolute -bottom-6 -right-6 w-28 h-28 bg-violet-300/20 rounded-full blur-2xl" />
@@ -412,7 +394,6 @@ export default function QuizPage() {
               </div>
               <h2 className="text-2xl font-extrabold text-white">Perfect Match Found!</h2>
 
-              {/* Arch bottom */}
               <div className="absolute bottom-0 left-0 right-0">
                 <svg viewBox="0 0 600 24" preserveAspectRatio="none" className="w-full h-6">
                   <path d="M0,24 C150,0 450,0 600,24 L600,24 L0,24 Z" fill="white" />
@@ -421,7 +402,6 @@ export default function QuizPage() {
             </div>
 
             <div className="p-8">
-              {/* Recommendation text */}
               <div className="bg-gradient-to-br from-blue-50/80 to-violet-50/60 border border-blue-100 rounded-2xl p-5 mb-6 relative">
                 <div className="absolute -top-3 left-5">
                   <span className="bg-[#5b84c4] text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
@@ -431,7 +411,6 @@ export default function QuizPage() {
                 <p className="text-gray-700 text-sm leading-relaxed mt-2">{recommendation}</p>
               </div>
 
-              {/* Actions */}
               <div className="space-y-3">
                 <Link href="/pets">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
@@ -455,7 +434,6 @@ export default function QuizPage() {
     );
   }
 
-  // ── QUIZ ───────────────────────────────────────────────────────────────────
   const QuestionIcon = question.icon;
 
   return (
@@ -465,7 +443,6 @@ export default function QuizPage() {
           transition={{ duration: 0.5, ease }}
           className="bg-white rounded-3xl shadow-xl border border-blue-50 overflow-hidden">
 
-          {/* Top bar */}
           <div className="bg-gradient-to-r from-[#5b84c4] to-[#4a73b3] px-6 pt-6 pb-8 relative">
             <div className="absolute bottom-0 left-0 right-0">
               <svg viewBox="0 0 600 20" preserveAspectRatio="none" className="w-full h-5">
@@ -485,7 +462,6 @@ export default function QuizPage() {
             <ProgressBar current={currentQ + 1} total={total} />
           </div>
 
-          {/* Question area */}
           <div className="px-6 pb-6 pt-2">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div key={currentQ} custom={direction}
@@ -515,7 +491,6 @@ export default function QuizPage() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Navigation */}
             <div className="flex gap-3 mt-6">
               <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
                 onClick={goBack}
@@ -540,7 +515,6 @@ export default function QuizPage() {
           </div>
         </motion.div>
 
-        {/* Bottom hint */}
         <p className="text-center text-xs text-gray-400 mt-4">
           {total - currentQ - 1 > 0
             ? `${total - currentQ - 1} question${total - currentQ - 1 > 1 ? "s" : ""} remaining`

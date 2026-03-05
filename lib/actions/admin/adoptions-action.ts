@@ -1,5 +1,5 @@
 "use server";
-// lib/actions/admin/adoptions-action.ts
+
 import { adminUpdateAdoptionStatus } from "../../api/admin.api";
 import type { AdoptionStatus } from "../../api/adoptions.api";
 import { revalidatePath } from "next/cache";

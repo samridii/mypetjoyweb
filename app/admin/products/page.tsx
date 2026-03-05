@@ -1,4 +1,3 @@
-// app/admin/products/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -11,14 +10,12 @@ import { API } from "@/lib/api/endpoint";
 import type { Product } from "@/lib/api/products.api";
 import toast from "react-hot-toast";
 
-// ── helpers ───────────────────────────────────────────────────────────────────
 const EMPTY_FORM = {
   name: "", description: "", price: "", stock: "", image: "",
 };
 type FormData   = typeof EMPTY_FORM;
 type FormErrors = Partial<Record<keyof FormData, string>>;
 
-// ── Product Modal ─────────────────────────────────────────────────────────────
 function ProductModal({
   product, onClose, onSaved,
 }: {
@@ -128,7 +125,7 @@ function ProductModal({
             {errors.description && <p className="text-xs text-red-400 mt-0.5">{errors.description}</p>}
           </div>
 
-          {/* Price + Stock */}
+          {/* Price Stock */}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">
@@ -189,7 +186,6 @@ function ProductModal({
   );
 }
 
-// ── Delete confirm ────────────────────────────────────────────────────────────
 function DeleteConfirm({ name, onConfirm, onCancel, deleting }: {
   name: string; onConfirm: () => void; onCancel: () => void; deleting: boolean;
 }) {
@@ -222,7 +218,6 @@ function DeleteConfirm({ name, onConfirm, onCancel, deleting }: {
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading]   = useState(true);

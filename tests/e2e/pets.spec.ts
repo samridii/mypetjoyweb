@@ -1,4 +1,3 @@
-// e2e/pets.spec.ts
 import { test, expect } from "@playwright/test";
 
 const MOCK_PETS = [
@@ -39,9 +38,6 @@ async function mockAdoptionRequest(page: any, status = 201) {
   );
 }
 
-// ══════════════════════════════════════════════════════════════════════════
-// PETS LIST — 6 tests
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("Pets Listing Page", () => {
   test("16. pets page loads and shows pet cards", async ({ page }) => {
     await mockPetsList(page);
@@ -78,7 +74,6 @@ test.describe("Pets Listing Page", () => {
       })
     );
     await page.goto("/pets");
-    // Either an empty-state message or zero pet cards
     const cards = page.locator("[class*='pet-card'], [class*='card'], [data-testid*='pet']");
     const count = await cards.count();
     expect(count).toBe(0);
@@ -93,9 +88,6 @@ test.describe("Pets Listing Page", () => {
   });
 });
 
-// ══════════════════════════════════════════════════════════════════════════
-// PET DETAIL — 4 tests
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("Pet Detail Page", () => {
   test("22. pet detail page shows pet name and breed", async ({ page }) => {
     await mockSinglePet(page);
@@ -118,7 +110,6 @@ test.describe("Pet Detail Page", () => {
     const adoptBtn = page.locator("button:has-text('Adopt'), a:has-text('Adopt')").first();
     if (await adoptBtn.isVisible()) {
       await adoptBtn.click();
-      // Fill required fields if a form opens
       const nameField = page.locator("input[name='fullName'], input[placeholder*='name' i]").first();
       if (await nameField.isVisible({ timeout: 2000 })) {
         await nameField.fill("Sam Kim");
@@ -126,7 +117,6 @@ test.describe("Pet Detail Page", () => {
         await page.locator("button[type='submit']").first().click();
       }
     }
-    // Either success toast or still on page — either is acceptable
     expect(true).toBe(true);
   });
 

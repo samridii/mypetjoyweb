@@ -1,4 +1,3 @@
-// e2e/ai.spec.ts
 import { test, expect } from "@playwright/test";
 
 async function mockQuiz(page: any, status = 200, recommendation = "We recommend getting a Cat!") {
@@ -14,10 +13,6 @@ async function mockQuiz(page: any, status = 200, recommendation = "We recommend 
     })
   );
 }
-
-// ══════════════════════════════════════════════════════════════════════════
-// AI PET RECOMMENDATION / QUIZ PAGE — 5 tests
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("AI Pet Recommendation Page", () => {
   test("1. quiz page loads with a heading and input/textarea", async ({ page }) => {
     await page.goto("/quiz");
@@ -46,18 +41,15 @@ test.describe("AI Pet Recommendation Page", () => {
   test("3. shows error state when API returns 400 (missing answers)", async ({ page }) => {
     await mockQuiz(page, 400);
     await page.goto("/quiz");
-    // submit without filling in answers
     await page
       .locator("button[type='submit'], button:has-text('Get'), button:has-text('Submit'), button:has-text('Recommend')")
       .first()
       .click();
-    // either a validation message or API error is shown
     const errMsg = page.locator("text=answer, text=required, text=provide, text=error").first();
     await expect(errMsg).toBeVisible({ timeout: 5000 });
   });
 
   test("4. submit button is disabled or shows loading while waiting for response", async ({ page }) => {
-    // slow mock to catch loading state
     await page.route("**/api/ai/quiz**", async (route: any) => {
       await new Promise((r) => setTimeout(r, 800));
       route.fulfill({
@@ -73,7 +65,6 @@ test.describe("AI Pet Recommendation Page", () => {
     await input.fill("I love outdoor activities.");
     const btn = page.locator("button[type='submit'], button:has-text('Get'), button:has-text('Submit'), button:has-text('Recommend')").first();
     await btn.click();
-    // either disabled state or a loading spinner should appear briefly
     const isDisabledOrLoading =
       (await btn.isDisabled()) ||
       (await page.locator("[class*='load'], [class*='spin'], text=Loading").count()) > 0;

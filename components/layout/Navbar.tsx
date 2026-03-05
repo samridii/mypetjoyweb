@@ -1,5 +1,4 @@
 "use client";
-// components/layout/Navbar.tsx — sticky, scrolled state, active links, cart count
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -12,7 +11,6 @@ import {
   User, Package, Settings, LogOut, Sparkles,
 } from "lucide-react";
 
-// FIX: define the shape of the cart API response so TS stops complaining about `res`
 interface CartItem     { quantity: number; }
 interface CartData     { items: CartItem[]; }
 interface CartResponse { data: CartData; }
@@ -33,7 +31,6 @@ export const Navbar = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      // FIX: type `res` explicitly → TS now knows res.data.data.items exists
       getCart()
         .then((res: { data: CartResponse }) => {
           const total = res.data.data?.items?.reduce(
@@ -113,7 +110,7 @@ export const Navbar = () => {
                 </Link>
               )}
 
-              {/* User menu / auth buttons */}
+              {/* User menu  */}
               {isAuthenticated ? (
                 <div className="relative">
                   <button
@@ -187,8 +184,6 @@ export const Navbar = () => {
                   </Link>
                 </div>
               )}
-
-              {/* Mobile menu toggle */}
               <button
                 onClick={() => setMenuOpen(p => !p)}
                 className="md:hidden p-2 rounded-xl text-gray-600 hover:bg-blue-50 transition-colors">

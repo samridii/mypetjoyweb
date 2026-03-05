@@ -25,7 +25,6 @@ interface CheckoutForm {
 }
 const INIT_FORM: CheckoutForm = { fullName: "", phone: "", address: "", note: "" };
 
-// ── Cart item row ─────────────────────────────────────────────────────────────
 function CartRow({
   item, index, onRemove, onQtyChange, updating,
 }: {
@@ -71,7 +70,7 @@ function CartRow({
         </p>
       </div>
 
-      {/* Qty controls */}
+      {/* Quantity controls */}
       <div className="flex items-center gap-1 bg-blue-50 rounded-xl px-2 py-1.5 border border-blue-100">
         <button
           onClick={() => onQtyChange(p._id, item.quantity - 1)}
@@ -109,7 +108,6 @@ function CartRow({
   );
 }
 
-// ── Checkout form field ───────────────────────────────────────────────────────
 function Field({ label, name, value, onChange, error, placeholder, type = "text", icon: Icon, textarea }: {
   label: string; name: keyof CheckoutForm; value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -139,7 +137,6 @@ function Field({ label, name, value, onChange, error, placeholder, type = "text"
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function CartPage() {
   const router = useRouter();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
@@ -240,7 +237,6 @@ export default function CartPage() {
     finally { setPlacing(false); }
   };
 
-  // ── Success screen ──────────────────────────────────────────────────────────
   if (success) return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-violet-50/40 flex items-center justify-center px-4">
       <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
@@ -272,7 +268,7 @@ export default function CartPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-violet-50/40">
 
-      {/* ── Hero ──────────────────────────────────────────────────────────── */}
+      {/*hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#5b84c4] via-[#4a73b3] to-[#3d5f9a] pt-14 pb-28">
         <div className="absolute -top-20 -left-20 w-72 h-72 bg-yellow-300/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-0 right-0 w-80 h-80 bg-violet-300/10 rounded-full blur-3xl pointer-events-none" />
@@ -311,7 +307,6 @@ export default function CartPage() {
             ))}
           </div>
         ) : items.length === 0 ? (
-          // ── Empty state ───────────────────────────────────────────────────
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease }}
             className="bg-white rounded-3xl shadow-sm border border-blue-50 p-16 text-center">
@@ -334,12 +329,10 @@ export default function CartPage() {
             </Link>
           </motion.div>
         ) : (
-          // ── Cart + summary ────────────────────────────────────────────────
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
             {/* Cart items */}
             <div className="lg:col-span-2 space-y-3">
-              {/* Toolbar */}
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, ease }}
                 className="flex items-center justify-between bg-white rounded-2xl border border-blue-50 px-4 py-3 shadow-sm">
@@ -450,7 +443,6 @@ export default function CartPage() {
         )}
       </div>
 
-      {/* ── Checkout Modal ─────────────────────────────────────────────────── */}
       <AnimatePresence>
         {showCheckout && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -465,7 +457,6 @@ export default function CartPage() {
               transition={{ duration: 0.4, ease }}
               className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden">
 
-              {/* Modal header */}
               <div className="relative bg-gradient-to-br from-[#5b84c4] via-[#4a73b3] to-[#3d5f9a] p-6 pb-8 text-center">
                 <div className="absolute -top-6 -right-6 w-24 h-24 bg-yellow-300/15 rounded-full blur-xl" />
                 <button onClick={() => setShowCheckout(false)}

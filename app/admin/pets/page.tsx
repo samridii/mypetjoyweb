@@ -1,4 +1,3 @@
-// app/admin/pets/page.tsx
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -11,7 +10,6 @@ import { API } from "@/lib/api/endpoint";
 import type { Pet } from "@/lib/api/pets.api";
 import toast from "react-hot-toast";
 
-// ── helpers ───────────────────────────────────────────────────────────────────
 const STATUS_CONFIG = {
   AVAILABLE: { label: "Available", dot: "bg-emerald-500", text: "text-emerald-700", bg: "bg-emerald-50 border-emerald-200" },
   PENDING:   { label: "Pending",   dot: "bg-amber-500",   text: "text-amber-700",   bg: "bg-amber-50 border-amber-200"     },
@@ -32,7 +30,6 @@ const EMPTY_FORM = {
 type FormData = typeof EMPTY_FORM;
 type FormErrors = Partial<Record<keyof FormData, string>>;
 
-// ── Pet Modal ─────────────────────────────────────────────────────────────────
 function PetModal({
   pet, onClose, onSaved,
 }: {
@@ -223,7 +220,6 @@ function PetModal({
   );
 }
 
-// ── Delete confirm ────────────────────────────────────────────────────────────
 function DeleteConfirm({ name, onConfirm, onCancel, deleting }: {
   name: string; onConfirm: () => void; onCancel: () => void; deleting: boolean;
 }) {
@@ -253,14 +249,13 @@ function DeleteConfirm({ name, onConfirm, onCancel, deleting }: {
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function AdminPetsPage() {
   const [pets, setPets]         = useState<Pet[]>([]);
   const [loading, setLoading]   = useState(true);
   const [search, setSearch]     = useState("");
   const [filterStatus, setFilterStatus] = useState("ALL");
   const [filterType, setFilterType]     = useState("ALL");
-  const [modalPet, setModalPet] = useState<Pet | null | undefined>(undefined); // undefined = closed
+  const [modalPet, setModalPet] = useState<Pet | null | undefined>(undefined); // undefined 
   const [deletePet, setDeletePet] = useState<Pet | null>(null);
   const [deleting, setDeleting] = useState(false);
 
@@ -383,7 +378,7 @@ export default function AdminPetsPage() {
                   const Icon = TYPE_ICONS[pet.type?.toLowerCase()] ?? PawPrint;
                   return (
                     <tr key={pet._id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                      {/* Pet name + image */}
+                      {/* Pet name plus image */}
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <div className="w-9 h-9 rounded-xl overflow-hidden bg-blue-50 flex-shrink-0 border border-blue-100">

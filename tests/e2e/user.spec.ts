@@ -1,4 +1,3 @@
-// e2e/user.spec.ts
 import { test, expect } from "@playwright/test";
 
 const MOCK_USER  = { _id: "u1", fullName: "Sam Kim", email: "sam@test.com", role: "user", mobile: "9800000000", location: "Kathmandu" };
@@ -50,9 +49,6 @@ async function mockChangePassword(page: any, status = 200) {
   );
 }
 
-// ══════════════════════════════════════════════════════════════════════════
-// USER PROFILE PAGE — 5 tests
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("User Profile Page", () => {
   test("1. profile page loads and displays current user info", async ({ page }) => {
     await mockProfile(page);
@@ -100,7 +96,6 @@ test.describe("User Profile Page", () => {
     await mockProfile(page);
     await loginAsUser(page);
     await page.goto("/profile");
-    // scroll down in case change-password is further down the page
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     const currentPwd = page
       .locator("input[name='currentPassword'], input[placeholder*='current' i], input[placeholder*='old' i]")
@@ -135,7 +130,6 @@ test.describe("User Profile Page", () => {
         page.locator("text=incorrect, text=wrong, text=Current password, text=error").first()
       ).toBeVisible({ timeout: 5000 });
     } else {
-      // profile page doesn't have inline change-password — acceptable
       expect(true).toBe(true);
     }
   });

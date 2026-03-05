@@ -1,4 +1,3 @@
-// app/api/quiz/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
@@ -10,11 +9,11 @@ export async function POST(req: NextRequest) {
     const key = process.env.GROQ_API_KEY;
 
     // Debug logs — remove after confirming it works
-    console.log("✅ GROQ_API_KEY exists:", !!key);
-    console.log("📋 Answers received:", JSON.stringify(answers));
+    console.log(" GROQ_API_KEY exists:", !!key);
+    console.log(" Answers received:", JSON.stringify(answers));
 
     if (!key) {
-      console.error("❌ GROQ_API_KEY is not set in .env.local");
+      console.error(" GROQ_API_KEY is not set in .env.local");
       return NextResponse.json(
         { success: false, error: "API key not configured" },
         { status: 500 }
@@ -51,11 +50,11 @@ Respond in 3-4 sentences only. Be direct and specific.`;
       }),
     });
 
-    console.log("📬 Groq response status:", groqRes.status);
+    console.log(" Groq response status:", groqRes.status);
 
     if (!groqRes.ok) {
       const errText = await groqRes.text();
-      console.error("❌ Groq error body:", errText);
+      console.error(" Groq error body:", errText);
       return NextResponse.json(
         { success: false, error: `Groq API error: ${groqRes.status}` },
         { status: 500 }
@@ -63,7 +62,7 @@ Respond in 3-4 sentences only. Be direct and specific.`;
     }
 
     const groqData = await groqRes.json();
-    console.log("✅ Groq response received");
+    console.log(" Groq response received");
 
     const recommendation =
       groqData.choices?.[0]?.message?.content?.trim() ??
@@ -72,7 +71,7 @@ Respond in 3-4 sentences only. Be direct and specific.`;
     return NextResponse.json({ success: true, recommendation });
 
   } catch (err: unknown) {
-    console.error("💥 Quiz route exception:", err);
+    console.error(" Quiz route exception:", err);
     return NextResponse.json(
       { success: false, error: "Something went wrong" },
       { status: 500 }

@@ -1,5 +1,5 @@
 "use server";
-// lib/actions/user-action.ts
+
 import { updateProfile, changePassword, type UpdateProfileData, type ChangePasswordData } from "../api/user.api";
 
 function getErrMsg(err: unknown): string {

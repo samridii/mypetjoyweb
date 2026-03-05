@@ -1,48 +1,60 @@
-import LoginForm from "../_components/LoginForm";
-import Image from "next/image";
+"use client";
+// app/(auth)/login/page.tsx
 
-export default function Page() {
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import LoginForm from "../_components/loginForm";
+
+export default function LoginPage() {
+  const router                          = useRouter();
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    // getUserData is server-only (next/headers) — use localStorage for client check
+    const token = localStorage.getItem("token");
+    const raw   = localStorage.getItem("user");
+    if (token && raw) {
+      try {
+        const user = JSON.parse(raw);
+        router.replace(user?.role === "admin" ? "/admin/dashboard" : "/");
+        return;
+      } catch {
+        // bad data — clear it
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
+    }
+    setCheckingAuth(false);
+  }, [router]);
+
+  if (checkingAuth) return null;
+
   return (
     <main className="relative min-h-screen w-full bg-[#fdf9be] overflow-hidden flex flex-col">
-      
-      <div className="absolute top-10 left-0 z-60">
-        <div
-          className="relative bg-[#eeede9]
-                     rounded-tr-full
-                     h-[550px] w-[340px]
-                     overflow-hidden"
-        >
 
-          <Image
-            src="/cutebag.png"
-            alt="Pet Illustration"
-            fill
-            className="object-cover"
-            priority
-          />
+      {/* Left image panel */}
+      <div className="absolute top-10 left-0 z-10">
+        <div className="relative bg-[#eeede9] rounded-tr-full h-[550px] w-[340px] overflow-hidden">
+          <Image src="/cutebag.png" alt="Pet Illustration" fill className="object-cover" priority />
         </div>
       </div>
 
+      {/* Right blue panel */}
       <div className="flex-1 flex justify-end items-end px-6 pt-6">
-        <div className="bg-[#5b84c4] w-full lg:w-[60%] min-h-[88vh] rounded-tl-[120px]  rounded-tr-[120px] flex items-center">
-          
-          <div className="w-full flex flex-col items-center px-8">
-            
-            <div className="w-full max-w-sm mb-10 text-white">
-              <h1 className="text-4xl font-bold mb-3  text-yellow-100">Welcome back!</h1>
-              <p className="text-sm font-light opacity-90 leading-relaxed">
+        <div className="bg-[#5b84c4] w-full lg:w-[60%] min-h-[88vh] rounded-tl-[120px] rounded-tr-[120px] flex items-center">
+          <div className="w-full flex flex-col items-center px-8 py-12">
+            <div className="w-full max-w-sm mb-10">
+              <h1 className="text-4xl font-bold mb-3 text-yellow-100">Welcome back!</h1>
+              <p className="text-sm font-light text-white/80 leading-relaxed">
                 Enter your credentials to access your account
               </p>
             </div>
-
             <LoginForm />
-
           </div>
         </div>
       </div>
+
     </main>
   );
 }
-
-
-

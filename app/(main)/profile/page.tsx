@@ -1,6 +1,4 @@
 "use client";
-// app/(main)/profile/page.tsx
-// Soft theme · Fredoka · framer-motion · Lucide icons · no emojis
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
@@ -29,7 +27,6 @@ const tabContent: Variants = {
   exit:    { opacity: 0, x: -12, transition: { duration: 0.2 } },
 };
 
-// ── Shared input ────────────────────────────────────────────────────────────
 function Field({
   label, icon: Icon, type = "text", value, onChange, placeholder, readOnly = false,
   rightEl,
@@ -96,15 +93,19 @@ export default function ProfilePage() {
     }
   }, [user]);
 
-  // Load recent orders for activity tab
-  useEffect(() => {
-    if (tab === "activity") {
+ useEffect(() => {
+    if (tab !== "activity") return;
+    const load = async () => {
       setOrdersLoading(true);
-      getMyOrders()
-        .then(r => setRecentOrders(r.data.data.slice(0, 3)))
-        .catch(() => {})
-        .finally(() => setOrdersLoading(false));
-    }
+      try {
+        const r = await getMyOrders();
+        setRecentOrders(r.data.data.slice(0, 3));
+      } catch {
+      } finally {
+        setOrdersLoading(false);
+      }
+    };
+    load();
   }, [tab]);
 
   const handleProfileSave = async (e: React.FormEvent) => {
@@ -163,7 +164,6 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-rose-50/40 to-violet-50/30 font-fredoka">
 
-      {/* ── Background blobs ─────────────────────────────────────────────── */}
       <div className="fixed inset-0 pointer-events-none -z-0">
         <div className="absolute top-0 right-0 w-96 h-96 bg-orange-200/25 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-violet-200/20 rounded-full blur-3xl" />
@@ -171,7 +171,6 @@ export default function ProfilePage() {
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        {/* ── Hero card ──────────────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
@@ -249,7 +248,6 @@ export default function ProfilePage() {
           </div>
         </motion.div>
 
-        {/* ── Main content ────────────────────────────────────────────────── */}
         <div className="grid lg:grid-cols-[260px_1fr] gap-6">
 
           {/* Sidebar tabs */}
@@ -299,8 +297,6 @@ export default function ProfilePage() {
           <AnimatePresence mode="wait">
             <motion.div key={tab} variants={tabContent}
               initial="hidden" animate="visible" exit="exit">
-
-              {/* ── PROFILE TAB ─────────────────────────────────────────── */}
               {tab === "profile" && (
                 <form onSubmit={handleProfileSave}
                   className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
@@ -347,7 +343,6 @@ export default function ProfilePage() {
                 </form>
               )}
 
-              {/* ── PASSWORD TAB ────────────────────────────────────────── */}
               {tab === "password" && (
                 <form onSubmit={handlePasswordSave}
                   className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
@@ -416,7 +411,6 @@ export default function ProfilePage() {
                 </form>
               )}
 
-              {/* ── ACTIVITY TAB ────────────────────────────────────────── */}
               {tab === "activity" && (
                 <div className="space-y-5">
                   {/* Recent orders */}

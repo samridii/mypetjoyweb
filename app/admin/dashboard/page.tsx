@@ -1,4 +1,3 @@
-// app/admin/dashboard/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -114,7 +113,6 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Recent orders placeholder */}
       <div className="mt-4 bg-white rounded-2xl border border-gray-100 p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-bold text-gray-700 text-sm flex items-center gap-2">

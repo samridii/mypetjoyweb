@@ -1,6 +1,4 @@
 "use client";
-// app/(main)/orders/page.tsx
-// Soft theme · Fredoka · framer-motion · Lucide icons · no emojis
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,7 +10,6 @@ import {
 } from "lucide-react";
 import { getMyOrders, type Order, type OrderStatus } from "@/lib/api/orders.api";
 
-// ── Status config ──────────────────────────────────────────────────────────
 const STATUS_CONFIG: Record<OrderStatus, {
   label: string; Icon: React.ElementType;
   bg: string; text: string; border: string; dot: string;
@@ -23,8 +20,6 @@ const STATUS_CONFIG: Record<OrderStatus, {
   DELIVERED: { label:"Delivered", Icon:CheckCircle,  bg:"bg-emerald-50", text:"text-emerald-600",border:"border-emerald-200",dot:"bg-emerald-400" },
   CANCELLED: { label:"Cancelled", Icon:XCircle,      bg:"bg-rose-50",    text:"text-rose-600",   border:"border-rose-200",  dot:"bg-rose-400"    },
 };
-
-// Static product images by order index (since backend images may not be accessible)
 const PRODUCT_IMAGES = [
   "https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=80&h=80&fit=crop",
   "https://images.unsplash.com/photo-1602584386319-fa8eb4361c2c?w=80&h=80&fit=crop",
@@ -43,7 +38,6 @@ function StatusBadge({ status }: { status: OrderStatus }) {
   );
 }
 
-// ── Order card ─────────────────────────────────────────────────────────────
 function OrderCard({ order, index }: { order: Order; index: number }) {
   const [open, setOpen] = useState(false);
   const cfg = STATUS_CONFIG[order.status] ?? STATUS_CONFIG.PENDING;
@@ -161,7 +155,6 @@ function OrderCard({ order, index }: { order: Order; index: number }) {
   );
 }
 
-// ── Filter button ──────────────────────────────────────────────────────────
 function FilterBtn({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
     <button onClick={onClick}
@@ -174,7 +167,6 @@ function FilterBtn({ label, active, onClick }: { label: string; active: boolean;
   );
 }
 
-// ── Skeleton ───────────────────────────────────────────────────────────────
 function Skeleton() {
   return (
     <div className="bg-white rounded-3xl border border-gray-100 p-6 animate-pulse">
@@ -201,12 +193,18 @@ export default function OrdersPage() {
   const [filter, setFilter]       = useState<FilterType>("All");
 
   useEffect(() => {
-    getMyOrders()
-      .then(r => setOrders(r.data.data))
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    const load = async () => {
+      try {
+        const r = await getMyOrders();
+        setOrders(r.data.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
-
   const filtered = filter === "All"
     ? orders
     : orders.filter(o => o.status === filter);

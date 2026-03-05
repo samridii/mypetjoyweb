@@ -1,5 +1,5 @@
 "use server";
-// lib/actions/admin/user-action.ts
+
 import { adminGetAllUsers, adminUpdateUser, adminDeleteUser } from "../../api/admin.api";
 import { revalidatePath } from "next/cache";
 

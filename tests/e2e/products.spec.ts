@@ -1,4 +1,3 @@
-// e2e/products-cart.spec.ts
 import { test, expect } from "@playwright/test";
 
 const MOCK_PRODUCTS = [
@@ -60,9 +59,6 @@ async function mockPlaceOrder(page: any) {
   );
 }
 
-// ══════════════════════════════════════════════════════════════════════════
-// PRODUCTS PAGE — 6 tests
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("Products Page", () => {
   test("26. products page loads and shows product names", async ({ page }) => {
     await mockProducts(page);
@@ -120,9 +116,6 @@ test.describe("Products Page", () => {
   });
 });
 
-// ══════════════════════════════════════════════════════════════════════════
-// CART PAGE — 5 tests
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("Cart Page", () => {
   test("32. cart page shows items in cart", async ({ page }) => {
     await mockCart(page);
@@ -133,7 +126,6 @@ test.describe("Cart Page", () => {
   test("33. cart page shows total price", async ({ page }) => {
     await mockCart(page);
     await page.goto("/cart");
-    // Total = 200×2 + 50×1 = 450
     const total = page.locator("text=450, text=Rs.450, text=Total").first();
     await expect(total).toBeVisible({ timeout: 5000 });
   });
@@ -163,14 +155,10 @@ test.describe("Cart Page", () => {
     const checkoutBtn = page.locator("button:has-text('Checkout'), button:has-text('Order'), button:has-text('Place')").first();
     if (await checkoutBtn.isVisible({ timeout: 3000 })) await checkoutBtn.click();
     await page.waitForTimeout(500);
-    // flexible: either order was placed or button wasn't present
     expect(typeof orderCalled).toBe("boolean");
   });
 });
 
-// ══════════════════════════════════════════════════════════════════════════
-// ORDERS PAGE — 4 tests
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("Orders Page", () => {
   test("37. orders page shows user orders", async ({ page }) => {
     await page.route("**/api/orders**", (route) =>

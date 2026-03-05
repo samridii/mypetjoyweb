@@ -1,9 +1,4 @@
 "use client";
-// app/(main)/page.tsx — Dashboard / Home
-// Fredoka font · arch hero with image · framer-motion · Lucide icons · no emojis
-// Features section · Why Choose Us · 3 featured products · Stats · FAQ · CTA
-// PRIMARY: Soft Blue (#5b84c4) · SECONDARY: Soft Yellow (#f3d46d) · THIRD: Lilac (#c4b5fd)
-
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useInView, useAnimation, AnimatePresence, type Variants } from "framer-motion";
@@ -15,7 +10,6 @@ import {
   MessageCircle,
 } from "lucide-react";
 
-// ── Animation variants ─────────────────────────────────────────────────────
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const fadeUp: Variants = {
@@ -31,7 +25,6 @@ const scaleIn: Variants = {
   visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease } },
 };
 
-// ── Scroll-reveal wrapper ───────────────────────────────────────────────────
 function Reveal({
   children, variants = fadeUp, className = "", delay = 0,
 }: {
@@ -60,7 +53,6 @@ function Reveal({
   );
 }
 
-// ── Data ───────────────────────────────────────────────────────────────────
 const features = [
   {
     img:   "/Adopt.png",
@@ -161,8 +153,7 @@ const featuredProducts = [
     tagCls:   "bg-sky-50 text-[#5b84c4]",
   },
 ];
-
-// ── FAQ Data (flat — all questions) ───────────────────────────────────────
+//FAQ
 const allFaqs = [
   {
     q: "How do I start the pet adoption process?",
@@ -194,7 +185,6 @@ const allFaqs = [
   },
 ];
 
-// ── FAQ Accordion Item ─────────────────────────────────────────────────────
 function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
   const [open, setOpen] = useState(false);
   return (
@@ -242,7 +232,6 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
             transition={{ duration: 0.32, ease }}
           >
             <div className="px-5 pb-5 pl-[60px]">
-              {/* answer text: xs→sm */}
               <p className="text-gray-500 text-base leading-relaxed font-normal">{a}</p>
             </div>
           </motion.div>
@@ -251,28 +240,20 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
     </motion.div>
   );
 }
-
-// ── Hero image (arch) ──────────────────────────────────────────────────────
+//hero
 const HERO_IMG = "/cuteall.png";
 
-// ── Main Page ──────────────────────────────────────────────────────────────
 export default function HomePage() {
   return (
     <div className="overflow-x-hidden font-fredoka">
 
-      {/* ═══════════════════════════════════════════════════════════════════
-          HERO — deeper background colors
-      ═══════════════════════════════════════════════════════════════════ */}
       <section className="relative min-h-screen bg-gradient-to-br from-blue-100 via-sky-100 to-[#e9e4ff] overflow-hidden flex items-center">
-
-        {/* Background blobs — more opaque */}
         <div className="absolute inset-0 pointer-events-none -z-0">
           <div className="absolute -top-40 -left-40 w-[540px] h-[540px] bg-blue-300/50 rounded-full blur-3xl animate-blob" />
           <div className="absolute -bottom-40 -right-40 w-[540px] h-[540px] bg-[#c4b5fd]/45 rounded-full blur-3xl animate-blob animation-delay-2000" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-yellow-200/45 rounded-full blur-3xl animate-blob animation-delay-4000" />
         </div>
 
-        {/* Floating paw icons */}
         {([
           { top:"14%", left:"6%",  s:26, d:0,   r:-12 },
           { top:"72%", left:"4%",  s:18, d:0.6, r:8   },
@@ -291,12 +272,11 @@ export default function HomePage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20 lg:py-0">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-screen lg:min-h-0 lg:py-20">
 
-            {/* Left: text */}
+            {/* Left text */}
             <motion.div
               initial="hidden" animate="visible" variants={stagger}
               className="text-center lg:text-left order-2 lg:order-1"
             >
-              {/* badge: text-sm → text-base */}
               <motion.div variants={fadeUp}
                 className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm
                   border border-blue-200 text-[#5b84c4] text-base font-semibold
@@ -304,8 +284,6 @@ export default function HomePage() {
                 <Sparkles size={14} />
                 Nepal&apos;s #1 Pet Platform
               </motion.div>
-
-              {/* h1: text-5xl sm:text-6xl lg:text-[4.25rem] → text-6xl sm:text-7xl lg:text-[5rem] */}
               <motion.h1 variants={fadeUp}
                 className="text-6xl sm:text-7xl lg:text-[5rem] font-bold text-yellow-500 mb-5 leading-[1.1] tracking-tight">
                 Find Your
@@ -315,13 +293,11 @@ export default function HomePage() {
                 </span>
               </motion.h1>
 
-              {/* body: text-lg → text-xl */}
               <motion.p variants={fadeUp}
                 className="text-xl text-gray-500 mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed font-normal">
                 Adopt a loving pet, shop premium supplies, and give an animal the home they truly deserve — all in one place.
               </motion.p>
 
-              {/* buttons: text-base → text-lg */}
               <motion.div variants={fadeUp}
                 className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                 <Link href="/pets"
@@ -344,7 +320,6 @@ export default function HomePage() {
                 </Link>
               </motion.div>
 
-              {/* trust badges: text-sm → text-base */}
               <motion.div variants={fadeUp}
                 className="flex flex-wrap items-center gap-4 mt-7 justify-center lg:justify-start">
                 {["500+ Pets Available", "Verified Sellers", "Secure Payments"].map(t => (
@@ -356,7 +331,7 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            {/* Right: Arch image */}
+            {/* Right Arch image */}
             <motion.div
               initial={{ opacity:0, scale:0.9, y:30 }}
               animate={{ opacity:1, scale:1, y:0 }}
@@ -378,7 +353,6 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-blue-900/15 via-transparent to-transparent" />
                 </div>
 
-                {/* floating cards — bump label/value text */}
                 <motion.div
                   animate={{ y:[0,-8,0] }}
                   transition={{ duration:3, repeat:Infinity, ease:"easeInOut" }}
@@ -425,7 +399,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Arch bottom divider */}
         <div className="absolute bottom-0 inset-x-0 pointer-events-none">
           <svg viewBox="0 0 1440 90" preserveAspectRatio="none"
             style={{ display:"block", width:"100%", height:"90px" }}>
@@ -435,9 +408,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════
-          STATS
-      ═══════════════════════════════════════════════════════════════════ */}
+      {/*stats*/}
       <section className="bg-white py-14 px-4">
         <div className="max-w-5xl mx-auto">
           <Reveal>
@@ -452,9 +423,7 @@ export default function HomePage() {
                   <div className="w-11 h-11 rounded-2xl bg-white mx-auto mb-3 flex items-center justify-center shadow-sm">
                     <Icon size={20} className={color} />
                   </div>
-                  {/* value: text-3xl → text-4xl */}
                   <div className={`text-4xl font-bold ${color} mb-1`}>{value}</div>
-                  {/* label: text-sm → text-base */}
                   <div className="text-base text-gray-500 font-medium">{label}</div>
                 </motion.div>
               ))}
@@ -463,19 +432,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════
-          FEATURES — 4 arch-style image cards
-      ═══════════════════════════════════════════════════════════════════ */}
       <section id="features" className="py-20 px-4 bg-gradient-to-br from-blue-50 via-sky-50 to-indigo-50">
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center mb-14">
-            {/* eyebrow: text-sm → text-base */}
             <p className="text-base font-semibold text-[#5b84c4] uppercase tracking-widest mb-3">What We Offer</p>
-            {/* heading: text-4xl sm:text-5xl → text-5xl sm:text-6xl */}
             <h2 className="text-5xl sm:text-6xl font-bold text-gray-800 mb-3">
               Everything Your Pet Needs
             </h2>
-            {/* subheading: text-lg → text-xl */}
             <p className="text-gray-500 text-xl max-w-xl mx-auto font-normal">
               One platform for adoption, shopping, and complete pet care
             </p>
@@ -505,15 +468,10 @@ export default function HomePage() {
                     shadow-lg border-2 border-white z-10 relative`}>
                     <Icon size={18} />
                   </div>
-
-                  {/* title: text-xl → text-2xl */}
                   <h3 className="text-2xl font-bold text-gray-800 mt-3 group-hover:text-[#5b84c4] transition-colors">
                     {title}
                   </h3>
-                  {/* desc: text-sm → text-base */}
                   <p className="text-gray-500 text-base text-center mt-1 font-normal">{desc}</p>
-
-                  {/* explore link: text-xs → text-sm */}
                   <span className={`mt-3 text-sm font-semibold bg-gradient-to-r ${color}
                     bg-clip-text text-transparent flex items-center gap-1`}>
                     Explore <ArrowRight size={12} className="text-[#5b84c4] group-hover:translate-x-1 transition-transform" />
@@ -525,21 +483,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════
-          WHY CHOOSE US
-      ═══════════════════════════════════════════════════════════════════ */}
+      {/* why choose us */}
       <section id="why" className="relative min-h-[85vh] overflow-hidden bg-[#5b84c4] px-4 md:px-6">
         <div className="absolute bottom-[-15%] left-1/2 -translate-x-1/2 w-[110%] h-[115%]
           bg-gradient-to-t from-white via-white to-transparent rounded-t-[100%] shadow-2xl" />
 
         <div className="relative z-10 max-w-6xl mx-auto flex flex-col justify-center min-h-[85vh] pt-20 pb-16">
           <Reveal className="text-center mb-16">
-            {/* main heading unchanged — already huge */}
             <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-wider mb-6
               text-[#f3d46d] drop-shadow-sm">
               WHY CHOOSE US
             </h2>
-            {/* subheading: text-base sm:text-lg → text-lg sm:text-xl */}
             <p className="text-white/90 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed font-normal">
               A smarter, emotional, all-in-one platform designed to engage users and convert attention into action.
             </p>
@@ -560,9 +514,7 @@ export default function HomePage() {
                   group-hover:scale-110 transition-transform`}>
                   <Icon size={22} className={color} />
                 </div>
-                {/* card title: text-base → text-lg */}
                 <h3 className={`${color} font-bold text-lg mb-3 uppercase tracking-wide`}>{title}</h3>
-                {/* card desc: text-sm → text-base */}
                 <p className="text-gray-500 text-base leading-relaxed font-normal">{desc}</p>
               </motion.div>
             ))}
@@ -570,23 +522,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════
-          FEATURED PRODUCTS — 3 cards
-      ═══════════════════════════════════════════════════════════════════ */}
+      {/* featutred product */}
       <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <Reveal className="flex items-end justify-between mb-12">
             <div>
-              {/* eyebrow: text-sm → text-base */}
               <p className="text-base font-semibold text-[#5b84c4] uppercase tracking-widest mb-2">Our Store</p>
               {/* heading: text-4xl sm:text-5xl → text-5xl sm:text-6xl */}
               <h2 className="text-5xl sm:text-6xl font-bold text-gray-800">
                 Featured Products
               </h2>
-              {/* subheading: no size class → text-lg */}
               <p className="text-gray-400 text-lg mt-2 font-normal">Handpicked essentials your pet will love</p>
             </div>
-            {/* view all: text-sm → text-base */}
             <Link href="/shop"
               className="hidden sm:flex items-center gap-2 text-[#5b84c4] font-semibold
                 hover:text-[#4a73b3] transition-colors group text-base">
@@ -611,26 +558,20 @@ export default function HomePage() {
                   <img src={img} alt={name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-                  {/* badge: text-xs → text-sm */}
         
                 </div>
 
                 <div className="p-5">
                   <div className="flex items-start justify-between mb-2">
-                    {/* tag: text-xs → text-sm */}
                     <span className={`text-sm font-semibold px-2.5 py-1 rounded-xl ${tagCls}`}>{tag}</span>
                     <div className="flex gap-0.5">
 
                     </div>
                   </div>
-                  {/* product name: text-base → text-lg */}
                   <h3 className="font-bold text-gray-800 text-lg mt-2 mb-1 leading-snug">{name}</h3>
-                  {/* product desc: text-xs → text-sm */}
                   <p className="text-gray-400 text-sm leading-relaxed mb-4 font-normal line-clamp-2">{desc}</p>
                   <div className="flex items-center justify-between">
-                    {/* price: text-xl → text-2xl */}
                     <span className="text-2xl font-bold text-gray-800">{price}</span>
-                    {/* button: text-xs → text-sm */}
                     <Link href="/shop"
                       className="flex items-center gap-1.5 px-4 py-2 bg-[#5b84c4] hover:bg-[#4a73b3]
                         text-white text-sm font-semibold rounded-xl transition-all
@@ -643,9 +584,7 @@ export default function HomePage() {
               </motion.div>
             ))}
           </motion.div>
-
           <div className="mt-8 text-center sm:hidden">
-            {/* mobile link: text-sm → text-base */}
             <Link href="/shop"
               className="inline-flex items-center gap-2 text-[#5b84c4] font-semibold text-base hover:text-[#4a73b3]">
               View all products <ArrowRight size={14} />
@@ -654,25 +593,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════
-          FAQ SECTION
-      ═══════════════════════════════════════════════════════════════════ */}
+      {/* faq */}
       <section id="faq" className="py-20 px-4 bg-gradient-to-br from-blue-50 via-white to-[#f5f3ff]">
         <div className="max-w-3xl mx-auto">
 
           <Reveal className="text-center mb-14">
-            {/* badge: text-sm → text-base */}
             <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm
               border border-blue-200 text-[#5b84c4] text-base font-semibold
               px-4 py-2 rounded-full mb-5 shadow-sm">
               <HelpCircle size={14} />
               Got Questions?
             </div>
-            {/* heading: text-4xl sm:text-5xl → text-5xl sm:text-6xl */}
             <h2 className="text-5xl sm:text-6xl font-bold text-gray-800 mb-3">
               Frequently Asked Questions
             </h2>
-            {/* subheading: text-lg → text-xl */}
             <p className="text-gray-500 text-xl max-w-xl mx-auto font-normal">
               Everything you need to know about adopting, shopping, and using our platform
             </p>
@@ -695,14 +629,11 @@ export default function HomePage() {
                 <MessageCircle size={20} className="text-white" />
               </div>
               <div className="text-center sm:text-left flex-1">
-                {/* text-base → text-lg */}
                 <p className="font-bold text-lg mb-1">Still have questions?</p>
-                {/* text-sm → text-base */}
                 <p className="text-white/80 text-base leading-relaxed font-normal">
-                  Our team is available Sun–Fri, 9 AM–6 PM NST.
+                  Our team is available Sun–Fri, 9 AM–6 PM .
                 </p>
               </div>
-              {/* button: text-sm → text-base */}
               <Link href="mailto:support@pawnepal.com"
                 className="inline-flex items-center gap-1.5 text-base font-bold bg-white/20
                   hover:bg-white/30 px-5 py-2.5 rounded-xl transition-all whitespace-nowrap">
@@ -713,9 +644,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════
-          CTA BANNER
-      ═══════════════════════════════════════════════════════════════════ */}
+      {/* cta */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <Reveal>
@@ -727,15 +656,12 @@ export default function HomePage() {
                 <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-5">
                   <TrendingUp size={26} className="text-white" />
                 </div>
-                {/* heading: text-4xl sm:text-5xl → text-5xl sm:text-6xl */}
                 <h2 className="text-5xl sm:text-6xl font-bold text-white mb-4">
                   Ready to Find Your Match?
                 </h2>
-                {/* body: text-lg → text-xl */}
                 <p className="text-blue-100 text-xl mb-8 font-normal max-w-xl mx-auto">
                   Take our 2-minute AI quiz and meet pets that perfectly fit your lifestyle.
                 </p>
-                {/* button: text-lg → text-xl */}
                 <Link href="/quiz"
                   className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#5b84c4]
                     font-bold rounded-2xl text-xl hover:bg-blue-50 transition-all

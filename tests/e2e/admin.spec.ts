@@ -1,4 +1,3 @@
-// e2e/admin.spec.ts
 import { test, expect } from "@playwright/test";
 
 const MOCK_ADMIN  = { id: "a1", fullName: "Admin User", email: "admin@test.com", role: "admin" };
@@ -20,7 +19,6 @@ const MOCK_ADOPTIONS = [
   { _id: "a2", status: "APPROVED", fullName: "Jane Doe", pet: { name: "Whiskers" } },
 ];
 
-// helper: inject admin token into localStorage before navigating
 async function loginAsAdmin(page: any) {
   await page.goto("/");
   await page.evaluate(({ token, user }: any) => {
@@ -36,9 +34,6 @@ async function mockAdminApis(page: any) {
   await page.route("**/api/admin/adoptions**", (r: any) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ success: true, data: MOCK_ADOPTIONS }) }));
 }
 
-// ══════════════════════════════════════════════════════════════════════════
-// ADMIN DASHBOARD — 3 tests
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("Admin Dashboard", () => {
   test("41. admin dashboard page loads with a heading", async ({ page }) => {
     await mockAdminApis(page);
@@ -52,7 +47,6 @@ test.describe("Admin Dashboard", () => {
     await mockAdminApis(page);
     await loginAsAdmin(page);
     await page.goto("/admin");
-    // At least one nav link should point to an admin sub-route
     const adminLink = page.locator("a[href*='/admin'], nav a, [class*='sidebar'] a").first();
     await expect(adminLink).toBeVisible({ timeout: 5000 });
   });
@@ -67,9 +61,6 @@ test.describe("Admin Dashboard", () => {
   });
 });
 
-// ══════════════════════════════════════════════════════════════════════════
-// ADMIN USERS — 2 tests
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("Admin Users Page", () => {
   test("44. admin users page lists all users", async ({ page }) => {
     await mockAdminApis(page);
@@ -88,9 +79,6 @@ test.describe("Admin Users Page", () => {
   });
 });
 
-// ══════════════════════════════════════════════════════════════════════════
-// ADMIN PETS — 2 tests
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("Admin Pets Page", () => {
   test("46. admin pets page lists all pets with names", async ({ page }) => {
     await mockAdminApis(page);
@@ -108,9 +96,6 @@ test.describe("Admin Pets Page", () => {
   });
 });
 
-// ══════════════════════════════════════════════════════════════════════════
-// ADMIN ORDERS — 2 tests
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("Admin Orders Page", () => {
   test("48. admin orders page shows all orders with status", async ({ page }) => {
     await mockAdminApis(page);
@@ -128,9 +113,6 @@ test.describe("Admin Orders Page", () => {
   });
 });
 
-// ══════════════════════════════════════════════════════════════════════════
-// ADMIN ADOPTIONS — 1 test
-// ══════════════════════════════════════════════════════════════════════════
 test.describe("Admin Adoptions Page", () => {
   test("50. admin adoptions page lists pending and approved adoptions", async ({ page }) => {
     await mockAdminApis(page);

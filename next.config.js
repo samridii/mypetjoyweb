@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Allow images from localhost (backend) and common CDNs
   images: {
     remotePatterns: [
       {
@@ -21,8 +20,6 @@ const nextConfig = {
       },
     ],
   },
-
-  // Proxy /api/* to backend — removes CORS issues in development
   async rewrites() {
     return [
       {

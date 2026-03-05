@@ -1,4 +1,3 @@
-// app/admin/orders/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -11,7 +10,6 @@ import { API } from "@/lib/api/endpoint";
 import type { Order, OrderStatus } from "@/lib/api/orders.api";
 import toast from "react-hot-toast";
 
-// ── config ────────────────────────────────────────────────────────────────────
 const STATUS_CONFIG: Record<OrderStatus, { label: string; dot: string; text: string; bg: string }> = {
   PENDING:   { label: "Pending",   dot: "bg-amber-400",   text: "text-amber-700",   bg: "bg-amber-50 border-amber-200"   },
   PAID:      { label: "Paid",      dot: "bg-blue-400",    text: "text-blue-700",    bg: "bg-blue-50 border-blue-200"     },
@@ -22,7 +20,6 @@ const STATUS_CONFIG: Record<OrderStatus, { label: string; dot: string; text: str
 
 const STATUS_FLOW: OrderStatus[] = ["PENDING", "PAID", "SHIPPED", "DELIVERED", "CANCELLED"];
 
-// ── Order detail modal ────────────────────────────────────────────────────────
 function OrderDetailModal({ order, onClose, onStatusChange }: {
   order: Order;
   onClose: () => void;
@@ -56,7 +53,7 @@ function OrderDetailModal({ order, onClose, onStatusChange }: {
 
         <div className="p-5 space-y-5">
 
-          {/* Status + date */}
+          {/* Status plus date */}
           <div className="flex items-center justify-between">
             <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-full border ${sc.bg} ${sc.text}`}>
               <span className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />{sc.label}
@@ -132,7 +129,6 @@ function OrderDetailModal({ order, onClose, onStatusChange }: {
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function AdminOrdersPage() {
   const [orders, setOrders]   = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -168,7 +164,6 @@ export default function AdminOrdersPage() {
     return matchSearch && matchStatus;
   });
 
-  // Summary counts
   const counts = STATUS_FLOW.reduce((acc, s) => {
     acc[s] = orders.filter(o => o.status === s).length;
     return acc;
@@ -310,7 +305,6 @@ export default function AdminOrdersPage() {
         </div>
       </div>
 
-      {/* Detail modal */}
       {viewOrder && (
         <OrderDetailModal
           order={viewOrder}

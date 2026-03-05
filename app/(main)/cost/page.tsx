@@ -45,7 +45,6 @@ const COST_ITEMS = [
   { key: "grooming", label: "Grooming", icon: Scissors,        color: "#a78bca", bg: "bg-violet-50",  border: "border-violet-100", bar: "from-violet-400 to-purple-400"},
 ];
 
-// ── Animated bar ──────────────────────────────────────────────────────────────
 function CostBar({ value, max, gradient, delay }: { value: number; max: number; gradient: string; delay: number }) {
   const pct = max > 0 ? Math.max(4, (value / max) * 100) : 4;
   return (
@@ -60,7 +59,6 @@ function CostBar({ value, max, gradient, delay }: { value: number; max: number; 
   );
 }
 
-// ── Pet selector card ─────────────────────────────────────────────────────────
 function PetCard({
   pet, index, selected, onClick,
 }: { pet: Pet; index: number; selected: boolean; onClick: () => void }) {
@@ -88,7 +86,6 @@ function PetCard({
             <Icon size={40} className={`${cfg.iconColor} opacity-40`} strokeWidth={1.5} />
           </div>
         )}
-        {/* arch bottom */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 200 12" preserveAspectRatio="none" className="w-full h-3">
             <path d="M0,12 C50,0 150,0 200,12 L200,12 L0,12 Z" fill="white" />
@@ -101,7 +98,6 @@ function PetCard({
             </svg>
           </div>
         )}
-        {/* status dot */}
         {pet.status !== "AVAILABLE" && (
           <div className="absolute top-2 left-2 w-2 h-2 rounded-full bg-slate-400" />
         )}
@@ -114,21 +110,27 @@ function PetCard({
   );
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
 export default function CostCalculatorPage() {
-  const [pets, setPets]         = useState<Pet[]>([]);
+  const [pets, setPets]               = useState<Pet[]>([]);
   const [loadingPets, setLoadingPets] = useState(true);
-  const [search, setSearch]     = useState("");
-  const [selected, setSelected] = useState<Pet | null>(null);
-  const [cost, setCost]         = useState<PetCost | null>(null);
+  const [search, setSearch]           = useState("");
+  const [selected, setSelected]       = useState<Pet | null>(null);
+  const [cost, setCost]               = useState<PetCost | null>(null);
   const [loadingCost, setLoadingCost] = useState(false);
-  const [view, setView]         = useState<"monthly" | "yearly">("yearly");
+  const [view, setView]               = useState<"monthly" | "yearly">("yearly");
 
   useEffect(() => {
-    getAllPets()
-      .then(r => setPets(r.data.data ?? []))
-      .catch(() => toast.error("Failed to load pets"))
-      .finally(() => setLoadingPets(false));
+    const load = async () => {
+      try {
+        const r = await getAllPets();
+        setPets(r.data.data ?? []);
+      } catch {
+        toast.error("Failed to load pets");
+      } finally {
+        setLoadingPets(false);
+      }
+    };
+    load();
   }, []);
 
   const handleSelect = async (pet: Pet) => {
@@ -170,7 +172,6 @@ export default function CostCalculatorPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-violet-50/40">
 
-      {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#5b84c4] via-[#4a73b3] to-[#3d5f9a] pt-14 pb-28">
         <div className="absolute -top-20 -left-20 w-72 h-72 bg-yellow-300/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-0 right-0 w-80 h-80 bg-violet-300/10 rounded-full blur-3xl pointer-events-none" />
@@ -197,11 +198,9 @@ export default function CostCalculatorPage() {
         </div>
       </section>
 
-      {/* ── Content ───────────────────────────────────────────────────────── */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-2 pb-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
 
-          {/* ── LEFT: Pet selector ──────────────────────────────────────── */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease }}
             className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-blue-50 overflow-hidden">
@@ -254,14 +253,12 @@ export default function CostCalculatorPage() {
             </div>
           </motion.div>
 
-          {/* ── RIGHT: Cost breakdown ──────────────────────────────────── */}
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.15, ease }}
             className="lg:col-span-3">
 
             <AnimatePresence mode="wait">
 
-              {/* Empty state */}
               {!selected && !loadingCost && (
                 <motion.div key="empty"
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -289,7 +286,6 @@ export default function CostCalculatorPage() {
                 </motion.div>
               )}
 
-              {/* Loading cost */}
               {loadingCost && (
                 <motion.div key="loading"
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -304,16 +300,14 @@ export default function CostCalculatorPage() {
                 </motion.div>
               )}
 
-              {/* Cost result */}
               {selected && cost && !loadingCost && (
                 <motion.div key={selected._id}
                   initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                   transition={{ duration: 0.45, ease }}
                   className="space-y-5">
 
-                  {/* Pet header card */}
                   <div className="bg-white rounded-3xl shadow-sm border border-blue-50 overflow-hidden">
-                    <div className={`relative bg-gradient-to-br from-[#5b84c4] via-[#4a73b3] to-[#3d5f9a] p-5`}>
+                    <div className="relative bg-gradient-to-br from-[#5b84c4] via-[#4a73b3] to-[#3d5f9a] p-5">
                       <div className="absolute -top-6 -right-6 w-24 h-24 bg-yellow-300/15 rounded-full blur-xl" />
                       <div className="flex items-center justify-between relative z-10">
                         <div>
@@ -332,8 +326,6 @@ export default function CostCalculatorPage() {
                         </svg>
                       </div>
                     </div>
-
-                    {/* View toggle */}
                     <div className="px-5 pt-3 pb-4 flex items-center justify-between">
                       <p className="text-xs text-gray-400 font-medium">Showing costs</p>
                       <div className="flex gap-1 bg-blue-50 rounded-xl p-1 border border-blue-100">
@@ -351,12 +343,10 @@ export default function CostCalculatorPage() {
                     </div>
                   </div>
 
-                  {/* Cost bars */}
                   <div className="bg-white rounded-3xl shadow-sm border border-blue-50 p-6 space-y-4">
                     <h4 className="font-extrabold text-gray-800 text-sm flex items-center gap-2 mb-5">
                       <TrendingUp size={16} className="text-[#5b84c4]" /> Cost Breakdown
                     </h4>
-
                     {COST_ITEMS.map((item, i) => {
                       const raw = cost.yearlyBreakdown[item.key as keyof typeof cost.yearlyBreakdown] as number ?? 0;
                       return (
@@ -382,7 +372,6 @@ export default function CostCalculatorPage() {
                     })}
                   </div>
 
-                  {/* Summary cards */}
                   <div className="grid grid-cols-2 gap-4">
                     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4, duration: 0.4, ease }}
@@ -415,7 +404,6 @@ export default function CostCalculatorPage() {
                     </motion.div>
                   </div>
 
-                  {/* CTA */}
                   {selected.status === "AVAILABLE" && (
                     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.55, duration: 0.4, ease }}
@@ -435,8 +423,6 @@ export default function CostCalculatorPage() {
                       </Link>
                     </motion.div>
                   )}
-
-                  {/* No cost data */}
                   {selected && !cost && !loadingCost && (
                     <div className="bg-white rounded-3xl shadow-sm border border-blue-50 p-8 text-center">
                       <DollarSign size={32} className="text-blue-200 mx-auto mb-3" />
