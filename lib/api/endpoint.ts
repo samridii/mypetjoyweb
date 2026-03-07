@@ -10,7 +10,7 @@ export const API = {
   PETS: {
     GET_ALL:   "/api/pets",
     GET_BY_ID: (id: string) => `/api/pets/${id}`,
-    COST:      (id: string) => `/api/pets/${id}/cost`,
+    COST:      (id: string) => `/api/cost/${id}`,   // ← matches cost.route.ts: /api/cost/:petId
   },
 
   PRODUCTS: {
@@ -32,22 +32,23 @@ export const API = {
   },
 
   ADOPTION: {
-    REQUEST:      "/api/adoption",
-    MY_ADOPTIONS: "/api/adoption/my",
+    REQUEST:      "/api/adoptions",
+    MY_ADOPTIONS: "/api/adoptions/my",
   },
+
   ADOPTIONS: {
-    REQUEST:      "/api/adoption",
-    MY_ADOPTIONS: "/api/adoption/my",
+    REQUEST:      "/api/adoptions",
+    MY_ADOPTIONS: "/api/adoptions/my",
   },
 
   AI: {
-    QUIZ:   "/api/ai/quiz",
-    SUBMIT: "/api/ai/quiz/submit",
+    QUIZ: {
+      GET:    "/api/ai/quiz",
+      SUBMIT: "/api/ai/quiz/submit",
+    },
   },
 
-  QUIZ: "/api/ai/quiz",
-  SUBMIT: "/api/ai/quiz/submit",
-
+  QUIZ:      "/api/ai/quiz",
   ANALYTICS: "/api/admin/analytics",
 
   USER: {
@@ -77,7 +78,7 @@ export const API = {
     },
     ADOPTIONS: {
       GET_ALL:       "/api/admin/adoptions",
-      UPDATE_STATUS: (id: string) => `/api/admin/adoptions/${id}/status`,
+      UPDATE_STATUS: (id: string) => `/api/admin/adoptions/${id}`,
     },
     ORDERS: {
       GET_ALL:       "/api/admin/orders",

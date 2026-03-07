@@ -9,13 +9,13 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import Image from "next/image";
 import { getCart, addToCart, removeFromCart, clearCart, type CartItem } from "@/lib/api/cart.api";
 import { placeOrder } from "@/lib/api/orders.api";
 import { useAuth } from "@/lib/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const MAX_QTY = 25;
 
 interface CheckoutForm {
   fullName: string;
@@ -31,7 +31,7 @@ function CartRow({
   item: CartItem;
   index: number;
   onRemove: (id: string) => void;
-  onQtyChange: (id: string, qty: number) => void;
+  onQtyChange: (id: string, delta: number) => void;
   updating: string | null;
 }) {
   const [imgErr, setImgErr] = useState(false);
@@ -73,7 +73,7 @@ function CartRow({
       {/* Quantity controls */}
       <div className="flex items-center gap-1 bg-blue-50 rounded-xl px-2 py-1.5 border border-blue-100">
         <button
-          onClick={() => onQtyChange(p._id, item.quantity - 1)}
+          onClick={() => onQtyChange(p._id, -1)}
           disabled={busy || item.quantity <= 1}
           className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-blue-200 text-blue-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
@@ -88,9 +88,10 @@ function CartRow({
           ) : item.quantity}
         </span>
         <button
-          onClick={() => onQtyChange(p._id, item.quantity + 1)}
-          disabled={busy}
-          className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-blue-200 text-blue-600 transition-colors disabled:opacity-40"
+          onClick={() => onQtyChange(p._id, +1)}
+          disabled={busy || item.quantity >= MAX_QTY}
+          title={item.quantity >= MAX_QTY ? `Max ${MAX_QTY} per item` : undefined}
+          className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-blue-200 text-blue-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <Plus size={11} />
         </button>
@@ -141,15 +142,15 @@ export default function CartPage() {
   const router = useRouter();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
 
-  const [items, setItems]           = useState<CartItem[]>([]);
-  const [loading, setLoading]       = useState(true);
-  const [updating, setUpdating]     = useState<string | null>(null);
-  const [clearing, setClearing]     = useState(false);
+  const [items, setItems]               = useState<CartItem[]>([]);
+  const [loading, setLoading]           = useState(true);
+  const [updating, setUpdating]         = useState<string | null>(null);
+  const [clearing, setClearing]         = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
-  const [form, setForm]             = useState<CheckoutForm>(INIT_FORM);
-  const [errors, setErrors]         = useState<Partial<CheckoutForm>>({});
-  const [placing, setPlacing]       = useState(false);
-  const [success, setSuccess]       = useState(false);
+  const [form, setForm]                 = useState<CheckoutForm>(INIT_FORM);
+  const [errors, setErrors]             = useState<Partial<CheckoutForm>>({});
+  const [placing, setPlacing]           = useState(false);
+  const [success, setSuccess]           = useState(false);
 
   const fetchCart = useCallback(async () => {
     try {
@@ -174,7 +175,7 @@ export default function CartPage() {
     if (user) setForm(p => ({ ...p, fullName: user.fullName || "", phone: "" }));
   }, [user]);
 
-  const total    = items.reduce((s, i) => s + i.product.price * i.quantity, 0);
+  const total     = items.reduce((s, i) => s + i.product.price * i.quantity, 0);
   const itemCount = items.reduce((s, i) => s + i.quantity, 0);
 
   const handleRemove = async (productId: string) => {
@@ -187,11 +188,23 @@ export default function CartPage() {
     finally { setUpdating(null); }
   };
 
-  const handleQtyChange = async (productId: string, newQty: number) => {
-    if (newQty < 1) return;
+  // FIX: pass delta (+1 or -1) to addToCart, NOT the absolute target quantity.
+  // The API accumulates on top of current stock, so sending the full newQty
+  // each time would multiply the quantity exponentially.
+  const handleQtyChange = async (productId: string, delta: number) => {
+    const current = items.find(i => i.product._id === productId);
+    if (!current) return;
+
+    const newQty = current.quantity + delta;
+    if (newQty < 1 || newQty > MAX_QTY) {
+      if (newQty > MAX_QTY) toast.error(`Maximum ${MAX_QTY} items per product`);
+      return;
+    }
+
     setUpdating(productId);
     try {
-      const res = await addToCart(productId, newQty);
+      // Pass only the delta so the backend adds/subtracts correctly
+      const res = await addToCart(productId, delta);
       setItems((res.data.data?.items ?? []).filter(i => i.product != null));
     } catch { toast.error("Failed to update quantity"); }
     finally { setUpdating(null); }
@@ -214,13 +227,26 @@ export default function CartPage() {
   };
 
   const validate = () => {
-    const e: Partial<CheckoutForm> = {};
-    if (!form.fullName.trim()) e.fullName = "Full name is required";
-    if (!form.phone.trim())    e.phone    = "Phone number is required";
-    if (!form.address.trim())  e.address  = "Delivery address is required";
-    setErrors(e);
-    return Object.keys(e).length === 0;
-  };
+  const e: Partial<CheckoutForm> = {};
+
+  if (!form.fullName.trim()) {
+    e.fullName = "Full name is required";
+  }
+
+  if (!form.phone.trim()) {
+    e.phone = "Phone number is required";
+  } 
+  else if (!/^9[678]\d{8}$/.test(form.phone.replace(/\s+/g, ""))) {
+    e.phone = "Enter a valid phone number (e.g. 98XXXXXXXX)";
+  }
+
+  if (!form.address.trim()) {
+    e.address = "Delivery address is required";
+  }
+
+  setErrors(e);
+  return Object.keys(e).length === 0;
+};
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -253,7 +279,7 @@ export default function CartPage() {
         </p>
         <p className="text-gray-400 text-xs mb-8">Our team will contact you at <span className="font-semibold">{form.phone}</span> to confirm delivery.</p>
         <div className="flex gap-3">
-          <Link href="/shop" className="flex-1 py-3 rounded-xl border-2 border-blue-100 text-[#5b84c4] font-bold text-sm hover:bg-blue-50 transition-all text-center">
+          <Link href="/products" className="flex-1 py-3 rounded-xl border-2 border-blue-100 text-[#5b84c4] font-bold text-sm hover:bg-blue-50 transition-all text-center">
             Continue Shopping
           </Link>
           <Link href="/orders" className="flex-1 py-3 rounded-xl font-bold text-white text-sm shadow-md text-center"
@@ -268,7 +294,7 @@ export default function CartPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50/60 via-white to-violet-50/40">
 
-      {/*hero */}
+      {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#5b84c4] via-[#4a73b3] to-[#3d5f9a] pt-14 pb-28">
         <div className="absolute -top-20 -left-20 w-72 h-72 bg-yellow-300/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-0 right-0 w-80 h-80 bg-violet-300/10 rounded-full blur-3xl pointer-events-none" />
@@ -352,7 +378,6 @@ export default function CartPage() {
                 </button>
               </motion.div>
 
-              {/* Items */}
               <AnimatePresence>
                 {items.map((item, i) => (
                   <CartRow key={item.product._id} item={item} index={i}
@@ -360,8 +385,7 @@ export default function CartPage() {
                 ))}
               </AnimatePresence>
 
-              {/* Continue shopping */}
-              <Link href="/shop"
+              <Link href="/products"
                 className="flex items-center gap-2 text-xs font-semibold text-[#5b84c4] hover:text-[#4a73b3] mt-2 transition-colors">
                 <RotateCcw size={12} /> Continue Shopping
               </Link>
@@ -487,7 +511,6 @@ export default function CartPage() {
                   onChange={handleFormChange} placeholder="Any special instructions..."
                   icon={Info} textarea />
 
-                {/* Order mini-summary */}
                 <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-3">
                   <div className="flex justify-between text-xs text-gray-500 mb-1">
                     <span>{itemCount} items</span>

@@ -1,6 +1,4 @@
 "use client";
-// app/(auth)/login/page.tsx
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -11,19 +9,19 @@ export default function LoginPage() {
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
-    // getUserData is server-only (next/headers) — use localStorage for client check
-    const token = localStorage.getItem("token");
-    const raw   = localStorage.getItem("user");
-    if (token && raw) {
-      try {
-        const user = JSON.parse(raw);
-        router.replace(user?.role === "admin" ? "/admin/dashboard" : "/");
-        return;
-      } catch {
-        // bad data — clear it
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-      }
+    // Match keys used by cookie.ts: "auth_token" in localStorage + cookie
+    const token = localStorage.getItem("auth_token");
+    const match = document.cookie.match(new RegExp("(^| )user_data=([^;]+)"));
+    let user: { role?: string } | null = null;
+    try {
+      if (match) user = JSON.parse(decodeURIComponent(match[2]));
+    } catch {
+      user = null;
+    }
+
+    if (token && user) {
+      router.replace(user?.role === "admin" ? "/admin/dashboard" : "/");
+      return;
     }
     setCheckingAuth(false);
   }, [router]);

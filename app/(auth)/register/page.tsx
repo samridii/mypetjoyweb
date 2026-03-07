@@ -9,17 +9,18 @@ export default function RegisterPage() {
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const raw   = localStorage.getItem("user");
-    if (token && raw) {
-      try {
-        const user = JSON.parse(raw);
-        router.replace(user?.role === "admin" ? "/admin/dashboard" : "/");
-        return;
-      } catch {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-      }
+    const token = localStorage.getItem("auth_token");
+    const match = document.cookie.match(new RegExp("(^| )user_data=([^;]+)"));
+    let user: { role?: string } | null = null;
+    try {
+      if (match) user = JSON.parse(decodeURIComponent(match[2]));
+    } catch {
+      user = null;
+    }
+
+    if (token && user) {
+      router.replace(user?.role === "admin" ? "/admin/dashboard" : "/");
+      return;
     }
     setCheckingAuth(false);
   }, [router]);

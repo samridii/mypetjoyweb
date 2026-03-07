@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { loginSchema, LoginData } from "../schema";
 import { loginAction } from "@/lib/actions/admin/auth-action";
+import { setAuthToken, setUserData } from "@/lib/cookie";
 import ForgotPasswordForm from "./Forgotpasswordform";
 
 export default function LoginForm() {
@@ -37,8 +38,9 @@ export default function LoginForm() {
       );
 
       if (result.success && result.user && result.token) {
-        localStorage.setItem("token", result.token);
-        localStorage.setItem("user",  JSON.stringify(result.user));
+        // Use cookie.ts helpers so token/user are stored consistently
+        setAuthToken(result.token);
+        setUserData(result.user);
         window.location.href = result.user.role === "admin" ? "/admin/dashboard" : "/";
       } else {
         setError(result.error || "Login failed");
@@ -118,7 +120,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={isSubmitting || pending}
-            className="w-full bg-yellow-300 hover:bg-yellow-400 active:bg-yellow-500
+            className="w-full bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-300
               text-gray-800 font-bold py-3 rounded-2xl transition-all duration-200
               disabled:opacity-60 disabled:cursor-not-allowed
               flex items-center justify-center gap-2 shadow-lg mt-2"
@@ -128,7 +130,7 @@ export default function LoginForm() {
                 <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10"
                     stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8V4z" />
                 </svg>
                 Signing in…
               </>

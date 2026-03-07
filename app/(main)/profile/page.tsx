@@ -46,8 +46,8 @@ function Field({
       <div className={`flex items-center gap-3 px-4 py-3 rounded-2xl border transition-all duration-200
         ${readOnly
           ? "bg-gray-50 border-gray-100 cursor-not-allowed"
-          : "bg-white border-gray-200 hover:border-blue-300 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-orange-100 shadow-sm"}`}>
-        <Icon size={16} className={readOnly ? "text-gray-300" : "text-orange-400"} />
+          : "bg-white border-gray-200 hover:border-blue-300 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100 shadow-sm"}`}>
+        <Icon size={16} className={readOnly ? "text-gray-300" : "text-blue-400"} />
         <input
           type={type}
           value={value}
@@ -162,10 +162,10 @@ export default function ProfilePage() {
   const isAdmin = user?.role === "admin";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-rose-50/40 to-violet-50/30 font-fredoka">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-rose-50/40 to-violet-50/30 font-fredoka">
 
       <div className="fixed inset-0 pointer-events-none -z-0">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-200/25 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-200/25 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-violet-200/20 rounded-full blur-3xl" />
       </div>
 
@@ -176,8 +176,8 @@ export default function ProfilePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease }}
           className="relative overflow-hidden rounded-3xl mb-8
-            bg-gradient-to-br from-blue-500 via-purple-500 to-blue-500
-            shadow-2xl shadow-orange-200/60"
+            bg-gradient-to-br from-blue-500 via-purple-300 to-blue-500
+            shadow-2xl shadow--200/60"
         >
           {/* Decorative circles */}
           <div className="absolute -top-16 -right-16 w-56 h-56 bg-white/10 rounded-full" />
@@ -201,7 +201,7 @@ export default function ProfilePage() {
             {/* Info */}
             <div className="text-center sm:text-left flex-1">
               <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">{user?.fullName ?? "User"}</h1>
-              <p className="text-orange-100 text-sm mb-3">{user?.email}</p>
+              <p className="text-blue-100 text-sm mb-3">{user?.email}</p>
               <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                 <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5
                   rounded-xl border ${isAdmin
@@ -262,9 +262,9 @@ export default function ProfilePage() {
                 className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl
                   text-sm font-semibold transition-all duration-200 group
                   ${tab === key
-                    ? "bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-lg shadow-orange-200"
+                    ? "bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow-lg shadow-blue-200"
                     : "bg-white text-gray-500 hover:bg-blue50 hover:text-blue-600 border border-gray-100 shadow-sm"}`}>
-                <Icon size={16} className={tab === key ? "text-white" : "text-gray-400 group-hover:text-orange-500"} />
+                <Icon size={16} className={tab === key ? "text-white" : "text-gray-400 group-hover:text-blue-500"} />
                 {label}
                 {tab === key && <ChevronRight size={14} className="ml-auto text-white/70" />}
               </button>
@@ -273,13 +273,13 @@ export default function ProfilePage() {
             {/* Info card */}
             <div className="mt-4 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
               <div className="flex items-center gap-2 mb-2">
-                <PawPrint size={14} className="text-orange-400" />
+                <PawPrint size={14} className="text-blue-400" />
                 <span className="text-xs font-bold text-gray-600 uppercase tracking-wide">Account Info</span>
               </div>
               <div className="space-y-1.5 text-xs text-gray-400 font-medium">
                 <div className="flex justify-between">
                   <span>Role</span>
-                  <span className={isAdmin ? "text-violet-500" : "text-orange-500"}>
+                  <span className={isAdmin ? "text-violet-200" : "text-blue-500"}>
                     {isAdmin ? "Administrator" : "Pet Lover"}
                   </span>
                 </div>
@@ -301,7 +301,7 @@ export default function ProfilePage() {
                 <form onSubmit={handleProfileSave}
                   className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                   <div className="px-7 py-5 border-b border-gray-100 flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-orange-50 flex items-center justify-center">
+                    <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center">
                       <User size={16} className="text-blue-500" />
                     </div>
                     <div>
@@ -330,8 +330,8 @@ export default function ProfilePage() {
                   <div className="px-7 pb-7">
                     <button type="submit" disabled={savingProfile}
                       className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl
-                        bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600
-                        text-white font-bold text-sm transition-all shadow-lg shadow-orange-200
+                        bg-gradient-to-r from-blue-500 to-blue-500 hover:from-blue-600 hover:to-blue-600
+                        text-white font-bold text-sm transition-all shadow-lg shadow-blue-200
                         hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed">
                       {savingProfile ? (
                         <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Saving…</>
@@ -348,7 +348,7 @@ export default function ProfilePage() {
                   className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                   <div className="px-7 py-5 border-b border-gray-100 flex items-center gap-3">
                     <div className="w-9 h-9 rounded-xl bg-violet-50 flex items-center justify-center">
-                      <Shield size={16} className="text-violet-500" />
+                      <Shield size={16} className="text-blue-500" />
                     </div>
                     <div>
                       <h2 className="text-base font-bold text-gray-800">Change Password</h2>
@@ -398,7 +398,7 @@ export default function ProfilePage() {
                   <div className="px-7 pb-7">
                     <button type="submit" disabled={savingPassword}
                       className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl
-                        bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600
+                        bg-gradient-to-r from-violet-500 to-purple-400 hover:from-violet-500 hover:to-purple-300
                         text-white font-bold text-sm transition-all shadow-lg shadow-violet-200
                         hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed">
                       {savingPassword ? (
@@ -426,7 +426,7 @@ export default function ProfilePage() {
                         </div>
                       </div>
                       <Link href="/orders"
-                        className="text-xs font-semibold text-orange-500 hover:text-orange-600
+                        className="text-xs font-semibold text-blue-500 hover:text-blue-600
                           flex items-center gap-1 transition-colors">
                         View all <ChevronRight size={12} />
                       </Link>
@@ -434,7 +434,7 @@ export default function ProfilePage() {
                     <div className="p-7">
                       {ordersLoading ? (
                         <div className="flex justify-center py-8">
-                          <span className="w-6 h-6 border-2 border-orange-200 border-t-orange-500 rounded-full animate-spin" />
+                          <span className="w-6 h-6 border-2 border-blue-200 border-t-blue-500 rounded-full animate-spin" />
                         </div>
                       ) : recentOrders.length === 0 ? (
                         <div className="text-center py-10">
@@ -443,8 +443,8 @@ export default function ProfilePage() {
                           </div>
                           <p className="text-sm text-gray-400 font-medium">No orders yet</p>
                           <Link href="/shop"
-                            className="mt-3 inline-flex items-center gap-1 text-xs text-orange-500
-                              hover:text-orange-600 font-semibold">
+                            className="mt-3 inline-flex items-center gap-1 text-xs text-blue-500
+                              hover:text-blue-600 font-semibold">
                             Browse the shop <ChevronRight size={11} />
                           </Link>
                         </div>
@@ -453,11 +453,11 @@ export default function ProfilePage() {
                           {recentOrders.map(order => (
                             <div key={order._id}
                               className="flex items-center justify-between p-4 rounded-2xl
-                                bg-gray-50 border border-gray-100 hover:border-orange-200 transition-all">
+                                bg-gray-50 border border-gray-100 hover:border-blue-200 transition-all">
                               <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-xl bg-orange-100
+                                <div className="w-10 h-10 rounded-xl bg-blue-100
                                   flex items-center justify-center flex-shrink-0">
-                                  <Package size={16} className="text-orange-500" />
+                                  <Package size={16} className="text-blue-500" />
                                 </div>
                                 <div>
                                   <p className="text-sm font-bold text-gray-700">
@@ -478,7 +478,7 @@ export default function ProfilePage() {
                                   order.status === "SHIPPED"   ? "bg-blue-100 text-blue-600"     :
                                   order.status === "PAID"      ? "bg-violet-100 text-violet-600" :
                                   order.status === "CANCELLED" ? "bg-rose-100 text-rose-600"     :
-                                  "bg-amber-100 text-amber-600"}`}>
+                                  "bg-amber-100 text-blue-600"}`}>
                                   {order.status}
                                 </span>
                               </div>
@@ -493,7 +493,7 @@ export default function ProfilePage() {
                   <div className="grid sm:grid-cols-2 gap-4">
                     {[
                       { href:"/pets",  Icon:PawPrint, label:"Browse Pets",  sub:"Find your next companion", color:"from-rose-400 to-pink-500",   bg:"bg-rose-50",   ic:"text-rose-500"   },
-                      { href:"/products",  Icon:Package,  label:"Visit Shop",   sub:"Get supplies for your pet", color:"from-amber-400 to-orange-500", bg:"bg-amber-50",  ic:"text-amber-500"  },
+                      { href:"/products",  Icon:Package,  label:"Visit Shop",   sub:"Get supplies for your pet", color:"from-amber-400 to-blue-500", bg:"bg-amber-50",  ic:"text-amber-500"  },
                     ].map(item => (
                       <Link key={item.href} href={item.href}
                         className="group bg-white rounded-2xl p-5 border border-gray-100

@@ -1,7 +1,7 @@
 "use server";
 
 import { registerUser, loginUser, forgotPassword, resetPassword, type RegisterData } from "../../api/auth.api";
-import { clearAuthCookies, getAuthToken, getUserData, type UserData } from "../../cookie";
+import { type UserData } from "../../cookie";
 import { redirect } from "next/navigation";
 
 export interface RegisterResult       { success: boolean; message: string; data?: unknown; }
@@ -50,6 +50,7 @@ export const loginAction = async (_prevState: LoginResult, formData: FormData): 
       role:     body.user.role,
     };
 
+    // Return token + user to the client — client will call setAuthToken/setUserData
     return { success: true, error: "", user: userData, token: body.token };
 
   } catch (err: unknown) {
@@ -88,11 +89,7 @@ export const resetPasswordAction = async (_prevState: ResetPasswordResult, formD
   }
 };
 
+// Logout: just redirect — client handles cookie clearing via AuthContext.logout()
 export const logoutAction = async (): Promise<void> => {
-  await clearAuthCookies();
   redirect("/login");
-};
-
-export const getLoggedInUser = async (): Promise<{ token: string | null; user: UserData | null }> => {
-  return { token: await getAuthToken(), user: await getUserData() };
 };

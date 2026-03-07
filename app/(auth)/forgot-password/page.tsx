@@ -57,7 +57,7 @@ export default function ForgotPasswordPage() {
           <strong className="text-blue-600">15 minutes</strong>.
         </p>
 
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800 text-left mb-6">
+        <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 text-sm text-amber-800 text-left mb-6">
           <p className="font-semibold mb-1"> Didn&apos;t receive it?</p>
           <ul className="space-y-1 text-xs">
             <li>• Check your spam / junk folder</li>

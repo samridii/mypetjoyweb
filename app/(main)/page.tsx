@@ -86,7 +86,7 @@ const features = [
     Icon:  Calculator,
     title: "Calculator",
     desc:  "Estimate pet costs",
-    href:  "/pets",
+    href:  "/cost",
     color: "from-[#f3d46d] to-[#e8c04a]",
     light: "bg-yellow-50 text-[#c9a227]",
   },
@@ -534,7 +534,7 @@ export default function HomePage() {
               </h2>
               <p className="text-gray-400 text-lg mt-2 font-normal">Handpicked essentials your pet will love</p>
             </div>
-            <Link href="/shop"
+            <Link href="/products"
               className="hidden sm:flex items-center gap-2 text-[#5b84c4] font-semibold
                 hover:text-[#4a73b3] transition-colors group text-base">
               View all

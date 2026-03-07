@@ -160,8 +160,8 @@ function FilterBtn({ label, active, onClick }: { label: string; active: boolean;
     <button onClick={onClick}
       className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 border
         ${active
-          ? "bg-gradient-to-r from-orange-500 to-rose-500 text-white border-transparent shadow-md shadow-orange-200"
-          : "bg-white text-gray-500 border-gray-200 hover:border-orange-300 hover:text-orange-600"}`}>
+          ? "bg-gradient-to-r from-blue-500 to-blue-500 text-white border-transparent shadow-md shadow-orange-200"
+          : "bg-white text-gray-500 border-gray-200 hover:border-blue-300 hover:text-blue-600"}`}>
       {label}
     </button>
   );
@@ -183,7 +183,6 @@ function Skeleton() {
   );
 }
 
-// ── Main page ──────────────────────────────────────────────────────────────
 const STATUS_FILTERS = ["All", "PENDING", "PAID", "SHIPPED", "DELIVERED", "CANCELLED"] as const;
 type FilterType = (typeof STATUS_FILTERS)[number];
 
@@ -218,7 +217,7 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50/30 to-violet-50/20 font-fredoka">
+    <div className="min-h-screen bg-gradient-to-br from-bluw-50 via-amber-50/30 to-violet-50/20 font-fredoka">
 
       {/* Background blobs */}
       <div className="fixed inset-0 pointer-events-none -z-0">
@@ -237,7 +236,7 @@ export default function OrdersPage() {
         >
           <Link href="/profile"
             className="inline-flex items-center gap-1.5 text-sm text-gray-400
-              hover:text-orange-500 transition-colors mb-5 font-medium">
+              hover:text-blue-500 transition-colors mb-5 font-medium">
             <ArrowLeft size={14} />
             Back to Profile
           </Link>
@@ -248,7 +247,7 @@ export default function OrdersPage() {
             </div>
             <div className="hidden sm:flex items-center gap-2 bg-white rounded-2xl px-4 py-2.5
               border border-gray-100 shadow-sm text-sm text-gray-500 font-medium">
-              <Package size={15} className="text-orange-400" />
+              <Package size={15} className="text-blue-400" />
               {orders.length} order{orders.length !== 1 ? "s" : ""}
             </div>
           </div>
@@ -310,8 +309,8 @@ export default function OrdersPage() {
             transition={{ duration: 0.4 }}
             className="text-center py-24 bg-white rounded-3xl border border-gray-100 shadow-sm"
           >
-            <div className="w-20 h-20 rounded-3xl bg-orange-50 flex items-center justify-center mx-auto mb-5">
-              <Package size={32} className="text-orange-300" />
+            <div className="w-20 h-20 rounded-3xl bg-blue-50 flex items-center justify-center mx-auto mb-5">
+              <Package size={32} className="text-blue-300" />
             </div>
             <h2 className="text-2xl font-bold text-gray-700 mb-2">
               {filter === "All" ? "No orders yet" : `No ${STATUS_CONFIG[filter as OrderStatus]?.label ?? filter} orders`}
@@ -324,8 +323,8 @@ export default function OrdersPage() {
             {filter === "All" ? (
               <Link href="/shop"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r
-                  from-orange-500 to-rose-500 text-white font-bold rounded-2xl text-sm
-                  shadow-lg shadow-orange-200 hover:-translate-y-0.5 transition-all">
+                  from-blue-500 to-blue-500 text-white font-bold rounded-2xl text-sm
+                  shadow-lg shadow-blue-200 hover:-translate-y-0.5 transition-all">
                 <ShoppingBag size={16} />
                 Browse Shop
                 <ChevronRight size={14} />
@@ -333,7 +332,7 @@ export default function OrdersPage() {
             ) : (
               <button onClick={() => setFilter("All")}
                 className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold
-                  text-orange-500 border-2 border-orange-200 rounded-2xl hover:bg-orange-50 transition-all">
+                  text-blue-500 border-2 border-orange-200 rounded-2xl hover:bg-orange-50 transition-all">
                 Show all orders
               </button>
             )}

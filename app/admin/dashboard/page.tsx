@@ -23,7 +23,7 @@ function StatCard({ label, value, sub, icon: Icon, color, bg }: {
   icon: React.ElementType; color: string; bg: string;
 }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-5 flex items-start justify-between">
+    <div className="bg-blue-100 rounded-2xl border border-gray-300 p-5 flex items-start justify-between">
       <div>
         <p className="text-xs font-semibold text-gray-400 mb-1">{label}</p>
         <p className="text-2xl font-extrabold text-gray-800">{value}</p>
@@ -81,7 +81,7 @@ export default function AdminDashboard() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-2xl border border-gray-100 p-5 h-24 animate-pulse" />
+            <div key={i} className="bg-white rounded-2xl border border-gray-200 p-5 h-24 animate-pulse" />
           ))}
         </div>
       ) : (
@@ -91,7 +91,7 @@ export default function AdminDashboard() {
       )}
 
       {/* Quick links */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-5">
+      <div className="bg-white rounded-2xl border border-gray-200 p-5">
         <h2 className="font-bold text-gray-700 text-sm mb-4">Quick Actions</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {[
@@ -100,7 +100,6 @@ export default function AdminDashboard() {
             { label: "View Orders",      href: "/admin/orders",    icon: ClipboardList, color: "text-amber-500",  bg: "bg-amber-50"  },
             { label: "Adoptions",        href: "/admin/adoptions", icon: Heart,         color: "text-rose-500",   bg: "bg-rose-50"   },
             { label: "Users",            href: "/admin/users",     icon: Users,         color: "text-emerald-500",bg: "bg-emerald-50"},
-            { label: "Analytics",        href: "/admin/analytics", icon: TrendingUp,    color: "text-cyan-500",   bg: "bg-cyan-50"   },
           ].map(q => (
             <a key={q.href} href={q.href}
               className="flex flex-col items-center gap-2 p-4 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50/30 transition-colors text-center group">
